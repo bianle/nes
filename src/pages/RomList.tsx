@@ -27,9 +27,7 @@ export default function RomList() {
               </div>
               <div className="rom-card-meta">
                 <span className="rom-card-title">{rom.title}</span>
-                <span className="rom-card-arrow" aria-hidden="true">
-                  →
-                </span>
+                <span className="rom-card-cta">开始游玩</span>
               </div>
             </Link>
           </li>

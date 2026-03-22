@@ -1,3 +1,4 @@
+import { ArrowLeft } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import type { Browser } from 'jsnes'
@@ -87,7 +88,8 @@ export default function GamePage() {
     <div className="game-page">
       <header className="game-toolbar">
         <Link className="game-back" to="/">
-          ← 返回列表
+          <ArrowLeft size={18} strokeWidth={2} aria-hidden />
+          返回列表
         </Link>
         <h1 className="game-title">{rom.title}</h1>
       </header>
