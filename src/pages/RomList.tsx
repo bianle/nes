@@ -6,6 +6,7 @@ export default function RomList() {
   return (
     <div className="rom-list-page">
       <header className="rom-list-header">
+        <span className="rom-list-kicker">NES</span>
         <h1 className="rom-list-title">游戏库</h1>
         <p className="rom-list-subtitle">选择游戏开始游玩</p>
       </header>
@@ -24,7 +25,12 @@ export default function RomList() {
                   loading="lazy"
                 />
               </div>
-              <span className="rom-card-title">{rom.title}</span>
+              <div className="rom-card-meta">
+                <span className="rom-card-title">{rom.title}</span>
+                <span className="rom-card-arrow" aria-hidden="true">
+                  →
+                </span>
+              </div>
             </Link>
           </li>
         ))}

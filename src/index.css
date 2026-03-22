@@ -1,15 +1,22 @@
 :root {
   --text: #6b6375;
   --text-h: #08060d;
+  --text-muted: #8b8499;
   --bg: #fff;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
+  --accent-soft: rgba(170, 59, 255, 0.08);
   --social-bg: rgba(244, 243, 236, 0.5);
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-2: rgba(248, 247, 252, 0.95);
+  --radius: 12px;
+  --radius-sm: 8px;
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --shadow-sm: rgba(0, 0, 0, 0.06) 0 2px 8px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -33,6 +40,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
+    --text-muted: #6b7280;
     --text-h: #f3f4f6;
     --bg: #16171d;
     --border: #2e303a;
@@ -40,9 +48,13 @@
     --accent: #c084fc;
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
+    --accent-soft: rgba(192, 132, 252, 0.1);
     --social-bg: rgba(47, 48, 58, 0.5);
+    --surface: rgba(30, 31, 40, 0.75);
+    --surface-2: rgba(22, 23, 29, 0.92);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --shadow-sm: rgba(0, 0, 0, 0.35) 0 2px 12px;
   }
 
   #social .button-icon {
@@ -64,6 +76,23 @@
 
 body {
   margin: 0;
+  min-height: 100svh;
+  background-color: var(--bg);
+  background-image: radial-gradient(
+    ellipse 100% 60% at 50% -15%,
+    var(--accent-soft),
+    transparent 52%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 h1,

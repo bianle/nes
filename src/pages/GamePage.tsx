@@ -94,9 +94,17 @@ export default function GamePage() {
 
       <div className="game-stage">
         {loading && !error && (
-          <p className="game-overlay-msg" role="status">
-            正在加载 ROM…
-          </p>
+          <div
+            className="game-overlay-msg"
+            role="status"
+            aria-live="polite"
+            aria-busy="true"
+          >
+            <div className="game-loading-inner">
+              <span className="game-loading-spinner" aria-hidden="true" />
+              <span className="game-loading-text">正在加载 ROM…</span>
+            </div>
+          </div>
         )}
         {error && (
           <div className="game-error" role="alert">
