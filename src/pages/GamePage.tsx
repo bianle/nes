@@ -21,9 +21,15 @@ export default function GamePage() {
     let browser: Browser | null = null
     let req: XMLHttpRequest | undefined
 
-    const onResize = () => {
+    const fitToContainer = () => {
+      if (cancelled) return
       browser?.fitInParent()
     }
+
+    const ro = new ResizeObserver(() => {
+      fitToContainer()
+    })
+    ro.observe(container)
 
     setError(null)
     setLoading(true)
@@ -54,9 +60,10 @@ export default function GamePage() {
           try {
             browser?.loadROM(data)
             requestAnimationFrame(() => {
-              browser?.fitInParent()
+              requestAnimationFrame(() => {
+                fitToContainer()
+              })
             })
-            window.addEventListener('resize', onResize)
             setLoading(false)
           } catch (e) {
             setError(String(e))
@@ -74,7 +81,7 @@ export default function GamePage() {
 
     return () => {
       cancelled = true
-      window.removeEventListener('resize', onResize)
+      ro.disconnect()
       req?.abort()
       browser?.destroy()
     }

@@ -53,41 +53,37 @@
   box-sizing: border-box;
 }
 
+/* 仅作定位容器，不再套卡片区、描边与阴影 */
 .game-stage {
   position: relative;
   width: 100%;
   max-width: min(960px, 100%);
   margin: 0 auto;
-  padding: 12px;
-  border-radius: calc(var(--radius) + 4px);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
 }
 
+/* jsnes 的 canvas 父级：与 NES 256×240 同比例；canvas 由 fitInParent 铺满此区域 */
 .nes-viewport {
   width: 100%;
-  aspect-ratio: 4 / 3;
-  background: #0a0a0c;
-  border-radius: var(--radius-sm);
+  aspect-ratio: 256 / 240;
   overflow: hidden;
   outline: none;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 16px 48px -20px rgba(0, 0, 0, 0.55);
+  background: transparent;
+  line-height: 0;
+}
+
+/* 避免 canvas 作为行内替换元素时在下方留出空隙，导致父级比画面“高一截” */
+.nes-viewport canvas {
+  display: block;
 }
 
 .nes-viewport:focus-visible {
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 16px 48px -20px rgba(0, 0, 0, 0.55),
-    0 0 0 2px var(--bg),
-    0 0 0 4px var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .game-overlay-msg {
   position: absolute;
-  inset: 12px;
+  inset: 0;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -96,7 +92,6 @@
   color: #e5e7eb;
   background: rgba(8, 8, 12, 0.72);
   backdrop-filter: blur(6px);
-  border-radius: var(--radius-sm);
   pointer-events: none;
 }
 
