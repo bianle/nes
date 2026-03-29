@@ -431,15 +431,15 @@ export default function GamePage() {
   }
 
   return (
-    <div className="flex min-h-full flex-col px-4 pb-9 pt-5 text-left">
+    <div className="flex min-h-full flex-col px-4 pb-6 pt-5 text-left">
       <h1 className="sr-only">{rom.title}</h1>
       <div
         ref={gameFrameRef}
-        className="relative mx-auto w-full max-w-[min(760px,100%)] [&:fullscreen]:flex [&:fullscreen]:h-screen [&:fullscreen]:min-h-0 [&:fullscreen]:w-screen [&:fullscreen]:max-w-none [&:fullscreen]:items-center [&:fullscreen]:justify-center [&:fullscreen]:bg-black"
+        className="group relative mx-auto w-full max-w-[min(760px,100%)] [&:fullscreen]:flex [&:fullscreen]:h-screen [&:fullscreen]:min-h-0 [&:fullscreen]:w-screen [&:fullscreen]:max-w-none [&:fullscreen]:items-center [&:fullscreen]:justify-center [&:fullscreen]:bg-black"
       >
         {loading && !error && (
           <div
-            className="pointer-events-none absolute inset-0 z-[1] m-0 flex items-center justify-center bg-[rgba(8,8,12,0.72)] text-gray-200 backdrop-blur-md"
+            className="pointer-events-none absolute inset-0 z-[3] m-0 flex items-center justify-center bg-[rgba(8,8,12,0.72)] text-gray-200 backdrop-blur-md"
             role="status"
             aria-live="polite"
             aria-busy="true"
@@ -485,39 +485,39 @@ export default function GamePage() {
           tabIndex={0}
           aria-label={`${rom.title} 游戏画面`}
         />
-      </div>
 
-      <div
-        className="mx-auto mt-2 flex w-full max-w-[min(760px,100%)] items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-2)] px-2 py-1.5"
-        role="toolbar"
-        aria-label="游戏工具"
-      >
-        <button
-          type="button"
-          className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-          aria-label="按键说明"
-          aria-expanded={keysHelpOpen}
-          aria-haspopup="dialog"
-          aria-controls={keysHelpOpen ? 'keys-help-dialog' : undefined}
-          title="按键说明"
-          onClick={() => setKeysHelpOpen(true)}
+        <div
+          className="pointer-events-none absolute bottom-[max(0.5rem,env(safe-area-inset-bottom))] left-1/2 z-[2] flex -translate-x-1/2 items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--border)]/70 bg-[var(--surface-2)]/72 px-2 py-1.5 opacity-0 shadow-lg backdrop-blur-md transition-opacity duration-200 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100"
+          role="toolbar"
+          aria-label="游戏工具"
         >
-          <Keyboard size={20} strokeWidth={2} aria-hidden />
-        </button>
-        <button
-          type="button"
-          className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-          aria-label={gameFullscreen ? '退出全屏' : '全屏'}
-          aria-pressed={gameFullscreen}
-          title={gameFullscreen ? '退出全屏' : '全屏'}
-          onClick={toggleGameFullscreen}
-        >
-          {gameFullscreen ? (
-            <Minimize2 size={20} strokeWidth={2} aria-hidden />
-          ) : (
-            <Maximize2 size={20} strokeWidth={2} aria-hidden />
-          )}
-        </button>
+          <button
+            type="button"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            aria-label="按键说明"
+            aria-expanded={keysHelpOpen}
+            aria-haspopup="dialog"
+            aria-controls={keysHelpOpen ? 'keys-help-dialog' : undefined}
+            title="按键说明"
+            onClick={() => setKeysHelpOpen(true)}
+          >
+            <Keyboard size={20} strokeWidth={2} aria-hidden />
+          </button>
+          <button
+            type="button"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            aria-label={gameFullscreen ? '退出全屏' : '全屏'}
+            aria-pressed={gameFullscreen}
+            title={gameFullscreen ? '退出全屏' : '全屏'}
+            onClick={toggleGameFullscreen}
+          >
+            {gameFullscreen ? (
+              <Minimize2 size={20} strokeWidth={2} aria-hidden />
+            ) : (
+              <Maximize2 size={20} strokeWidth={2} aria-hidden />
+            )}
+          </button>
+        </div>
       </div>
 
       {keysHelpOpen && (
