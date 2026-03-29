@@ -1,5 +1,7 @@
 import { useEffect, useId, useMemo, useRef } from 'react'
+import SimpleBar from 'simplebar-react'
 import { useNavigate } from 'react-router-dom'
+import { RomCoverThumb } from './RomCoverThumb'
 import { useGlobalSearch } from '../context/GlobalSearchContext'
 import { roms } from '../data/roms'
 
@@ -121,39 +123,38 @@ export function GlobalSearchModal() {
           </div>
         </div>
 
-        <div className="max-h-[min(50vh,360px)] overflow-y-auto border-t border-[var(--border)] px-2 py-2 sm:px-3">
-          {filteredRoms.length === 0 ? (
-            <p className="px-2 py-6 text-center text-sm text-[var(--text-muted)]">
-              没有匹配的游戏
-            </p>
-          ) : (
-            <ul className="m-0 list-none p-0">
-              {filteredRoms.map((rom) => (
-                <li key={rom.id} className="border-b border-[var(--border)] last:border-b-0">
-                  <button
-                    type="button"
-                    className="flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-2 py-2.5 text-left transition-colors hover:bg-[var(--accent-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-                    onClick={() => goToGame(rom.id)}
-                  >
-                    <div className="aspect-[3/4] w-11 shrink-0 overflow-hidden rounded-[6px] bg-[#0d0e12]">
-                      <img
-                        className="block h-full w-full object-cover"
-                        src={rom.cover}
-                        alt=""
-                        width={180}
-                        height={240}
-                        loading="lazy"
+        <SimpleBar
+          className="max-h-[min(50vh,360px)] border-t border-[var(--border)]"
+          autoHide={false}
+        >
+          <div className="px-2 py-2 sm:px-3">
+            {filteredRoms.length === 0 ? (
+              <p className="px-2 py-6 text-center text-sm text-[var(--text-muted)]">
+                没有匹配的游戏
+              </p>
+            ) : (
+              <ul className="m-0 list-none p-0">
+                {filteredRoms.map((rom) => (
+                  <li key={rom.id} className="border-b border-[var(--border)] last:border-b-0">
+                    <button
+                      type="button"
+                      className="flex w-full items-center gap-3 rounded-[var(--radius-sm)] px-2 py-2.5 text-left transition-colors hover:bg-[var(--accent-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                      onClick={() => goToGame(rom.id)}
+                    >
+                      <RomCoverThumb
+                        cover={rom.cover}
+                        className="aspect-[3/4] w-11 shrink-0 overflow-hidden rounded-[6px] bg-[#0d0e12]"
                       />
-                    </div>
-                    <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[var(--text-h)]">
-                      {rom.title}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+                      <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-[var(--text-h)]">
+                        {rom.title}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </SimpleBar>
       </div>
     </div>
   )

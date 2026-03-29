@@ -7,8 +7,9 @@ export interface RomEntry {
   tags: string[]
   /**
    * 封面图地址：本站相对路径（如 `/covers/a.png`）或完整网络地址（`https://...`）均可。
+   * 省略或空字符串时列表与搜索中显示占位图。
    */
-  cover: string
+  cover?: string
   /**
    * ROM 地址：本站路径或 `https://` 等完整 URL 均可。
    * 若 ROM 在其它域名，该资源需允许跨域（响应头含 CORS，否则浏览器会拦截 XHR）。
@@ -61,6 +62,38 @@ export const roms: RomEntry[] = [
     tags: ['射击', '双人'],
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/3_e83410eb63.jpg',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_57a596daea.nes',
+  },
+  {
+    id: '6',
+    title: '三目童子',
+    description: '三目童子，打怪兽，街机移植的火爆手感。',
+    tags: ['射击', '单人'],
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Mitsume_ga_Tooru_J_a7cd3f3e47.png',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_74a1c2b944.nes',
+  },
+  {
+    id: '7',
+    title: '坦克大战',
+    description: '坦克大战，打坦克，街机移植的火爆手感。',
+    tags: ['射击', '双人'],
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/3_1_3_in_1_Battle_City_Unl_987a712e5e.png',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_ec3e65c4f1.nes',
+  },
+  {
+    id: '8',
+    title: '松鼠大作战',
+    description: '松鼠大作战，打松鼠，街机移植的火爆手感。',
+    tags: ['射击', '双人'],
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_Chip_to_Dale_no_Daisakusen_J_40251bc39a.png',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_0be53246c9.nes',
+  },
+  {
+    id: '9',
+    title: '松鼠大作战2',
+    description: '松鼠大作战2，打松鼠，街机移植的火爆手感。',
+    tags: ['射击', '双人'],
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/2_Chip_to_Dale_no_Daisakusen_2_J_c13ecc5727.png',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/2_1661eda835.nes',
   },
 ]
 

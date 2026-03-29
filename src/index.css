@@ -183,6 +183,11 @@
   border-color: transparent !important;
 }
 
+/* SimpleBar：自定义滚动条与主题色一致 */
+[data-simplebar] .simplebar-scrollbar:before {
+  background: var(--accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
