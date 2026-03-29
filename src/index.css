@@ -7,10 +7,10 @@
   --bg: #fff;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
-  --accent: #047857;
-  --accent-bg: rgba(4, 120, 87, 0.12);
-  --accent-border: rgba(4, 120, 87, 0.48);
-  --accent-soft: rgba(4, 120, 87, 0.09);
+  --accent: #9d174d;
+  --accent-bg: rgba(157, 23, 77, 0.12);
+  --accent-border: rgba(157, 23, 77, 0.48);
+  --accent-soft: rgba(157, 23, 77, 0.09);
   --social-bg: rgba(244, 243, 236, 0.5);
   --surface: rgba(255, 255, 255, 0.72);
   --surface-2: rgba(248, 247, 252, 0.95);
@@ -45,10 +45,10 @@
   --bg: #16171d;
   --border: #2e303a;
   --code-bg: #1f2028;
-  --accent: #34d399;
-  --accent-bg: rgba(52, 211, 153, 0.14);
-  --accent-border: rgba(52, 211, 153, 0.5);
-  --accent-soft: rgba(52, 211, 153, 0.11);
+  --accent: #f472b6;
+  --accent-bg: rgba(244, 114, 182, 0.14);
+  --accent-border: rgba(244, 114, 182, 0.5);
+  --accent-soft: rgba(244, 114, 182, 0.11);
   --social-bg: rgba(47, 48, 58, 0.5);
   /* 比 --bg 略亮一档，避免与 #16171d 混成同色（旧 rgba(22,23,29,.92) 与底色同 RGB） */
   --surface: rgba(39, 40, 50, 0.85);
@@ -66,46 +66,7 @@
   color-scheme: light;
 }
 
-/* 主题色预设（默认翠绿：不写 data-accent，由上方 :root 提供） */
-:root[data-theme='light'][data-accent='rose'] {
-  --accent: #9d174d;
-  --accent-bg: rgba(157, 23, 77, 0.12);
-  --accent-border: rgba(157, 23, 77, 0.48);
-  --accent-soft: rgba(157, 23, 77, 0.09);
-}
-:root[data-theme='dark'][data-accent='rose'] {
-  --accent: #f472b6;
-  --accent-bg: rgba(244, 114, 182, 0.14);
-  --accent-border: rgba(244, 114, 182, 0.5);
-  --accent-soft: rgba(244, 114, 182, 0.11);
-}
-
-:root[data-theme='light'][data-accent='sky'] {
-  --accent: #0369a1;
-  --accent-bg: rgba(3, 105, 161, 0.12);
-  --accent-border: rgba(3, 105, 161, 0.48);
-  --accent-soft: rgba(3, 105, 161, 0.09);
-}
-:root[data-theme='dark'][data-accent='sky'] {
-  --accent: #38bdf8;
-  --accent-bg: rgba(56, 189, 248, 0.14);
-  --accent-border: rgba(56, 189, 248, 0.5);
-  --accent-soft: rgba(56, 189, 248, 0.11);
-}
-
-:root[data-theme='light'][data-accent='cyan'] {
-  --accent: #0e7498;
-  --accent-bg: rgba(14, 116, 152, 0.12);
-  --accent-border: rgba(14, 116, 152, 0.48);
-  --accent-soft: rgba(14, 116, 152, 0.09);
-}
-:root[data-theme='dark'][data-accent='cyan'] {
-  --accent: #22d3ee;
-  --accent-bg: rgba(34, 211, 238, 0.14);
-  --accent-border: rgba(34, 211, 238, 0.5);
-  --accent-soft: rgba(34, 211, 238, 0.11);
-}
-
+/* 主题色预设（默认玫粉：不写 data-accent，由上方 :root 提供） */
 :root[data-theme='light'][data-accent='violet'] {
   --accent: #6d28d9;
   --accent-bg: rgba(109, 40, 217, 0.12);
@@ -144,6 +105,71 @@
   --accent-bg: rgba(246, 115, 115, 0.14);
   --accent-border: rgba(246, 115, 115, 0.5);
   --accent-soft: rgba(246, 115, 115, 0.11);
+}
+
+:root[data-theme='light'][data-accent='lime'] {
+  --accent: #4d7c0f;
+  --accent-bg: rgba(77, 124, 15, 0.12);
+  --accent-border: rgba(77, 124, 15, 0.48);
+  --accent-soft: rgba(77, 124, 15, 0.09);
+}
+:root[data-theme='dark'][data-accent='lime'] {
+  --accent: #a3e635;
+  --accent-bg: rgba(163, 230, 53, 0.14);
+  --accent-border: rgba(163, 230, 53, 0.5);
+  --accent-soft: rgba(163, 230, 53, 0.11);
+}
+
+:root[data-theme='light'][data-accent='fuchsia'] {
+  --accent: #a21caf;
+  --accent-bg: rgba(162, 28, 175, 0.12);
+  --accent-border: rgba(162, 28, 175, 0.48);
+  --accent-soft: rgba(162, 28, 175, 0.09);
+}
+:root[data-theme='dark'][data-accent='fuchsia'] {
+  --accent: #e879f9;
+  --accent-bg: rgba(232, 121, 249, 0.14);
+  --accent-border: rgba(232, 121, 249, 0.5);
+  --accent-soft: rgba(232, 121, 249, 0.11);
+}
+
+:root[data-theme='light'][data-accent='mint'] {
+  --accent: #0f766e;
+  --accent-bg: rgba(15, 118, 110, 0.12);
+  --accent-border: rgba(15, 118, 110, 0.48);
+  --accent-soft: rgba(15, 118, 110, 0.09);
+}
+:root[data-theme='dark'][data-accent='mint'] {
+  --accent: #5eead4;
+  --accent-bg: rgba(94, 234, 212, 0.14);
+  --accent-border: rgba(94, 234, 212, 0.5);
+  --accent-soft: rgba(94, 234, 212, 0.11);
+}
+
+:root[data-theme='light'][data-accent='sakura'] {
+  --accent: #be185d;
+  --accent-bg: rgba(190, 24, 93, 0.12);
+  --accent-border: rgba(190, 24, 93, 0.48);
+  --accent-soft: rgba(190, 24, 93, 0.09);
+}
+:root[data-theme='dark'][data-accent='sakura'] {
+  --accent: #f9a8d4;
+  --accent-bg: rgba(249, 168, 212, 0.14);
+  --accent-border: rgba(249, 168, 212, 0.5);
+  --accent-soft: rgba(249, 168, 212, 0.11);
+}
+
+:root[data-theme='light'][data-accent='neon'] {
+  --accent: #0891b2;
+  --accent-bg: rgba(8, 145, 178, 0.12);
+  --accent-border: rgba(8, 145, 178, 0.48);
+  --accent-soft: rgba(8, 145, 178, 0.09);
+}
+:root[data-theme='dark'][data-accent='neon'] {
+  --accent: #67e8f9;
+  --accent-bg: rgba(103, 232, 249, 0.14);
+  --accent-border: rgba(103, 232, 249, 0.5);
+  --accent-soft: rgba(103, 232, 249, 0.11);
 }
 
 @layer base {
@@ -200,6 +226,18 @@
 /* SimpleBar：自定义滚动条与主题色一致 */
 [data-simplebar] .simplebar-scrollbar:before {
   background: var(--accent);
+}
+
+/* 搜索弹窗：滑块默认隐藏，悬停 / 焦点在弹窗内 / 滚动时出现（滑块在 :before 上） */
+.search-modal-simplebar .simplebar-scrollbar:before {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.search-modal-simplebar:hover .simplebar-scrollbar:before,
+.search-modal-simplebar:focus-within .simplebar-scrollbar:before,
+.search-modal-simplebar .simplebar-scrollbar.simplebar-visible:before {
+  /* 与 SimpleBar 默认 .simplebar-visible 一致（0.5），避免比其它区域滚动条更「亮」 */
+  opacity: 0.5;
 }
 
 @media (prefers-reduced-motion: reduce) {

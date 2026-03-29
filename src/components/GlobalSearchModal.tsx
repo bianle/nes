@@ -123,10 +123,7 @@ export function GlobalSearchModal() {
           </div>
         </div>
 
-        <SimpleBar
-          className="max-h-[min(50vh,360px)] border-t border-[var(--border)]"
-          autoHide={false}
-        >
+        <SimpleBar className="search-modal-simplebar max-h-[min(50vh,360px)] border-t border-[var(--border)]">
           <div className="px-2 py-2 sm:px-3">
             {filteredRoms.length === 0 ? (
               <p className="px-2 py-6 text-center text-sm text-[var(--text-muted)]">
