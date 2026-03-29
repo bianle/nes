@@ -25,7 +25,7 @@ export default function RomList() {
                 <span className="line-clamp-2 text-[13px] font-semibold leading-snug text-[var(--text-h)] sm:text-[15px]">
                   {rom.title}
                 </span>
-                <span className="w-fit shrink-0 rounded-full bg-[var(--bg)] px-2 py-1 text-[10px] font-semibold leading-none tracking-[0.04em] text-[var(--accent)] transition-[transform,background] duration-200 ease-out group-hover:translate-x-0.5 sm:px-2.5 sm:py-1.5 sm:text-xs">
+                <span className="w-fit shrink-0 rounded-full border-2 border-[var(--accent)] bg-transparent px-2 py-1 text-[10px] font-semibold leading-none tracking-[0.04em] text-[var(--accent)] transition-transform duration-200 ease-out group-hover:translate-x-0.5 sm:px-2.5 sm:py-1.5 sm:text-xs">
                   开始游玩
                 </span>
               </div>
