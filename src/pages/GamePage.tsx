@@ -494,11 +494,11 @@ export default function GamePage() {
           <button
             type="button"
             className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-            aria-label="按键说明"
+            aria-label="自定义按键"
             aria-expanded={keysHelpOpen}
             aria-haspopup="dialog"
             aria-controls={keysHelpOpen ? 'keys-help-dialog' : undefined}
-            title="按键说明"
+            title="自定义按键"
             onClick={() => setKeysHelpOpen(true)}
           >
             <Keyboard size={20} strokeWidth={2} aria-hidden />
