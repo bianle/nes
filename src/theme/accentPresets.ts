@@ -5,6 +5,7 @@ export type AccentPreset =
   | 'cyan'
   | 'violet'
   | 'amber'
+  | 'coral'
 
 export const ACCENT_STORAGE_KEY = 'nes-accent-preset'
 
@@ -20,6 +21,7 @@ export const ACCENT_PRESETS: {
   { id: 'cyan', label: '青色', swatch: '#0e7498' },
   { id: 'violet', label: '紫罗兰', swatch: '#6d28d9' },
   { id: 'amber', label: '琥珀', swatch: '#b45309' },
+  { id: 'coral', label: '珊瑚红', swatch: '#f56565' },
 ]
 
 export function applyAccentPreset(preset: AccentPreset) {
@@ -45,7 +47,8 @@ export function readStoredAccentPreset(): AccentPreset {
       v === 'sky' ||
       v === 'cyan' ||
       v === 'violet' ||
-      v === 'amber'
+      v === 'amber' ||
+      v === 'coral'
     ) {
       return v
     }

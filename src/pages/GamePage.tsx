@@ -2,8 +2,8 @@ import {
   Check,
   Keyboard,
   Loader2,
-  Maximize2,
-  Minimize2,
+  Maximize,
+  Minimize,
   RotateCcw,
   X,
 } from 'lucide-react'
@@ -558,9 +558,9 @@ export default function GamePage() {
             onClick={toggleGameFullscreen}
           >
             {gameFullscreen ? (
-              <Minimize2 size={20} strokeWidth={2} aria-hidden />
+              <Minimize size={20} strokeWidth={2} aria-hidden />
             ) : (
-              <Maximize2 size={20} strokeWidth={2} aria-hidden />
+              <Maximize size={20} strokeWidth={2} aria-hidden />
             )}
           </button>
         </div>

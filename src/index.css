@@ -132,6 +132,20 @@
   --accent-soft: rgba(251, 191, 36, 0.11);
 }
 
+/* 珊瑚红（与 VitePress brand 系 #f56565 / #dc5a5a 对齐） */
+:root[data-theme='light'][data-accent='coral'] {
+  --accent: #dc5a5a;
+  --accent-bg: rgba(220, 90, 90, 0.12);
+  --accent-border: rgba(220, 90, 90, 0.48);
+  --accent-soft: rgba(220, 90, 90, 0.09);
+}
+:root[data-theme='dark'][data-accent='coral'] {
+  --accent: #f67373;
+  --accent-bg: rgba(246, 115, 115, 0.14);
+  --accent-border: rgba(246, 115, 115, 0.5);
+  --accent-soft: rgba(246, 115, 115, 0.11);
+}
+
 @layer base {
   body {
     @apply m-0 min-h-svh bg-[var(--bg)];
