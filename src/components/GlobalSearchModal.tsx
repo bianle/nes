@@ -1,6 +1,5 @@
 import { useEffect, useId, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { X } from 'lucide-react'
 import { useGlobalSearch } from '../context/GlobalSearchContext'
 import { roms } from '../data/roms'
 
@@ -12,7 +11,6 @@ const chipActive =
   'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
 
 export function GlobalSearchModal() {
-  const titleId = useId()
   const inputId = useId()
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
@@ -84,28 +82,11 @@ export function GlobalSearchModal() {
       <div
         role="dialog"
         aria-modal="true"
-        aria-labelledby={titleId}
+        aria-label="搜索游戏"
         className="relative z-[1] flex w-full max-w-lg flex-col overflow-hidden rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] text-left shadow-[0_16px_48px_rgba(0,0,0,0.22)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between gap-2 border-b border-[var(--border)] px-3 py-2 sm:px-4">
-          <h2
-            id={titleId}
-            className="m-0 text-sm font-semibold text-[var(--text-h)]"
-          >
-            搜索游戏
-          </h2>
-          <button
-            type="button"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-h)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-            aria-label="关闭"
-            onClick={close}
-          >
-            <X size={20} strokeWidth={2} aria-hidden />
-          </button>
-        </div>
-
-        <div className="border-b border-[var(--border)] p-3 sm:p-4">
+        <div className="px-4 pb-1 pt-4 sm:px-5 sm:pt-5">
           <label htmlFor={inputId} className="sr-only">
             游戏名关键字
           </label>
@@ -115,28 +96,15 @@ export function GlobalSearchModal() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="输入游戏名…"
+            placeholder="搜索游戏名…"
             autoComplete="off"
-            className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--code-bg)] px-3 py-2.5 text-sm text-[var(--text-h)] shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] outline-none placeholder:text-[var(--text-muted)] focus-visible:border-[var(--accent-border)] focus-visible:ring-2 focus-visible:ring-[var(--accent-soft)] [color-scheme:inherit]"
+            aria-label="搜索游戏名"
+            className="w-full border-0 border-b border-[var(--border)] bg-transparent px-0.5 py-2.5 text-base text-[var(--text-h)] outline-none ring-0 placeholder:text-[var(--text-muted)] focus:border-[var(--accent-border)] focus:ring-0 [color-scheme:inherit]"
           />
-          <p className="mt-2 text-[11px] text-[var(--text-muted)]">
-            快捷键 Ctrl+K / ⌘K 打开或关闭
-          </p>
         </div>
 
-        <div className="border-b border-[var(--border)] px-3 py-3 sm:px-4">
-          <p className="m-0 mb-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">
-            标签
-          </p>
+        <div className="px-3 py-3 sm:px-4">
           <div className="flex flex-wrap gap-2" role="toolbar" aria-label="按标签筛选">
-            <button
-              type="button"
-              className={`${chipBase} ${activeTag === null ? chipActive : chipIdle}`}
-              aria-pressed={activeTag === null}
-              onClick={() => setActiveTag(null)}
-            >
-              全部
-            </button>
             {allTags.map((tag) => (
               <button
                 key={tag}
@@ -153,10 +121,7 @@ export function GlobalSearchModal() {
           </div>
         </div>
 
-        <div className="max-h-[min(50vh,360px)] overflow-y-auto px-2 py-2 sm:px-3">
-          <p className="m-0 mb-2 px-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">
-            搜索结果
-          </p>
+        <div className="max-h-[min(50vh,360px)] overflow-y-auto border-t border-[var(--border)] px-2 py-2 sm:px-3">
           {filteredRoms.length === 0 ? (
             <p className="px-2 py-6 text-center text-sm text-[var(--text-muted)]">
               没有匹配的游戏
