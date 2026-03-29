@@ -11,7 +11,7 @@ export default function AppLayout() {
             to="/"
             className="text-base font-semibold tracking-tight text-[var(--text-h)] no-underline transition-opacity hover:opacity-80 focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
-            NES 游戏库
+            小霸王其乐无穷
           </Link>
           <div className="flex items-center gap-1">
             <AccentPicker />
@@ -27,7 +27,7 @@ export default function AppLayout() {
       <footer className="bg-[var(--bg)] py-5 text-center text-sm text-[var(--text-muted)]">
         <div className="mx-auto max-w-[min(1200px,100%)] px-4 sm:px-5">
           <p className="m-0 leading-relaxed">
-            NES 游戏库 · 浏览器内模拟 · 仅供学习交流
+            小霸王其乐无穷 · 浏览器内模拟 · 仅供学习交流
           </p>
         </div>
       </footer>
