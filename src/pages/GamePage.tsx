@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import type { Browser } from 'jsnes'
 import { getRomById } from '../data/roms'
-import './GamePage.css'
 
 export default function GamePage() {
   const { id } = useParams<{ id: string }>()
@@ -92,49 +91,68 @@ export default function GamePage() {
   }
 
   return (
-    <div className="game-page">
-      <header className="game-toolbar">
-        <Link className="game-back" to="/">
+    <div className="flex min-h-full flex-col px-4 pb-9 pt-5 text-left">
+      <header className="relative mb-5 flex min-h-[2.75rem] items-center justify-center max-[520px]:min-h-0 max-[520px]:flex-col max-[520px]:items-start max-[520px]:justify-start max-[520px]:gap-2.5">
+        <Link
+          className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-1.5 rounded-md py-1.5 text-[15px] font-medium text-[var(--accent)] no-underline transition-opacity duration-150 ease-out hover:opacity-85 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--accent)] max-[520px]:static max-[520px]:translate-none"
+          to="/"
+        >
           <ArrowLeft size={18} strokeWidth={2} aria-hidden />
           返回列表
         </Link>
-        <h1 className="game-title">{rom.title}</h1>
+        <h1 className="m-0 box-border max-w-full px-[6.5rem] text-center text-[clamp(20px,2.8vw,26px)] font-medium leading-tight tracking-[-0.03em] text-[var(--text-h)] max-[520px]:px-0 max-[520px]:text-left">
+          {rom.title}
+        </h1>
       </header>
 
-      <div className="game-stage">
+      <div className="relative mx-auto w-full max-w-[min(760px,100%)]">
         {loading && !error && (
           <div
-            className="game-overlay-msg"
+            className="pointer-events-none absolute inset-0 z-[1] m-0 flex items-center justify-center bg-[rgba(8,8,12,0.72)] text-gray-200 backdrop-blur-md"
             role="status"
             aria-live="polite"
             aria-busy="true"
           >
-            <div className="game-loading-inner">
-              <span className="game-loading-spinner" aria-hidden="true" />
-              <span className="game-loading-text">正在加载 ROM…</span>
+            <div className="flex flex-col items-center gap-3.5">
+              <span
+                className="size-9 animate-[spin_0.75s_linear_infinite] rounded-full border-[3px] border-white/15 border-t-[var(--accent)] motion-reduce:animate-none motion-reduce:border-t-white/35"
+                aria-hidden="true"
+              />
+              <span className="text-sm tracking-[0.02em] text-gray-300">
+                正在加载 ROM…
+              </span>
             </div>
           </div>
         )}
         {error && (
-          <div className="game-error" role="alert">
+          <div
+            className="mb-4 space-y-2 rounded-[var(--radius-sm)] border border-red-500/35 bg-red-600/12 px-[18px] py-4 text-[var(--text-h)]"
+            role="alert"
+          >
             <p>{error}</p>
-            <p className="game-error-hint">
+            <p className="text-sm text-[var(--text)]">
               请确认 <code>src/data/roms.ts</code> 里该游戏的 <code>romUrl</code>{' '}
-              正确。若使用本地文件，请放到 <code>public/roms</code>；若使用网络地址，需对方服务器允许跨域（CORS），否则浏览器无法读取。
+              正确。若使用本地文件，请放到 <code>public/roms</code>
+              ；若使用网络地址，需对方服务器允许跨域（CORS），否则浏览器无法读取。
             </p>
-            <Link to="/">返回游戏库</Link>
+            <Link
+              className="font-medium text-[var(--accent)]"
+              to="/"
+            >
+              返回游戏库
+            </Link>
           </div>
         )}
         <div
           ref={containerRef}
-          className="nes-viewport"
+          className="aspect-[256/240] w-full overflow-hidden bg-transparent leading-none outline-none [&_canvas]:block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--accent)]"
           tabIndex={0}
           aria-label={`${rom.title} 游戏画面`}
         />
       </div>
 
-      <footer className="game-hints">
-        <p>
+      <footer className="mx-auto mt-[22px] max-w-[min(760px,100%)] rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-[18px] py-3.5 text-sm leading-normal text-[var(--text-muted)]">
+        <p className="m-0">
           键盘：方向键、Z / X、Enter、右 Shift（可在 jsnes 默认映射下游玩）
         </p>
       </footer>

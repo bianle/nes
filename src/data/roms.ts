@@ -21,14 +21,14 @@ export const roms: RomEntry[] = [
   {
     id: '1',
     title: '超级马里奥兄弟世界',
-    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Super_Mario_Bros_World_f95a566b1e.png',
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/nes_supermariobros_4b876708ad.jpg',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Super_Mario_Bros_World_fd4079458a.nes',
   },
   {
-    id: 'sample-2',
-    title: '示例游戏 2',
-    cover: '/covers/default.svg',
-    romUrl: '/roms/sample-2.nes',
+    id: '2',
+    title: '一二功夫',
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_7c2bb6e10f.jpg',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_5d041d510a.nes',
   },
 ]
 
