@@ -168,7 +168,7 @@ export function keyCodeToLabel(code: number): string {
     221: ']',
     222: "'",
   }
-  return m[code] ?? `键码 ${code}`
+  return m[code] ?? `#${code}`
 }
 
 export function structuredToFlat(s: StructuredBindings): NesKeyMap {

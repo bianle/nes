@@ -390,19 +390,16 @@ export default function GamePage() {
                   aria-hidden
                 >
                   <div className="grid h-full w-full grid-cols-3 grid-rows-3 gap-1 [grid-template-columns:repeat(3,2.25rem)] [grid-template-rows:repeat(3,2.25rem)]">
-                    <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p1.up)}
                     </span>
-                    <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p1.left)}
                     </span>
-                    <span className="col-start-2 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-muted)]">
-                      ·
-                    </span>
-                    <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p1.right)}
                     </span>
-                    <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p1.down)}
                     </span>
                   </div>
@@ -412,7 +409,7 @@ export default function GamePage() {
                   aria-hidden
                 >
                   <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                    <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p1.select)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
@@ -420,7 +417,7 @@ export default function GamePage() {
                     </span>
                   </div>
                   <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                    <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p1.start)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
@@ -433,7 +430,7 @@ export default function GamePage() {
                   aria-hidden
                 >
                   <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                    <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p1.a)}
                     </span>
                     <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
@@ -441,7 +438,7 @@ export default function GamePage() {
                     </span>
                   </div>
                   <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                    <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p1.b)}
                     </span>
                     <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
@@ -470,7 +467,7 @@ export default function GamePage() {
                       <span className="min-w-[4.75rem] text-[var(--text-muted)]">
                         {PAD_ACTION_LABELS[action]}
                       </span>
-                      <code className="min-w-0 flex-1 rounded bg-[var(--surface-2)] px-2 py-1 font-mono text-[var(--text-h)]">
+                      <code className="min-w-0 flex-1 rounded bg-[var(--surface-2)] px-2 py-1 font-mono text-xs text-[var(--text-h)]">
                         {keyListen?.player === 1 && keyListen.action === action
                           ? '请按键…'
                           : keyCodeToLabel(bindings.p1[action])}
@@ -504,19 +501,16 @@ export default function GamePage() {
                   aria-hidden
                 >
                   <div className="grid h-full w-full grid-cols-3 grid-rows-3 gap-1 [grid-template-columns:repeat(3,2.25rem)] [grid-template-rows:repeat(3,2.25rem)]">
-                    <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p2.up)}
                     </span>
-                    <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p2.left)}
                     </span>
-                    <span className="col-start-2 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-muted)]">
-                      ·
-                    </span>
-                    <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p2.right)}
                     </span>
-                    <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                    <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0 text-center text-[7px] font-semibold leading-none tracking-tighter text-[var(--text-h)] sm:text-[8px]">
                       {keyCodeToLabel(bindings.p2.down)}
                     </span>
                   </div>
@@ -526,7 +520,7 @@ export default function GamePage() {
                   aria-hidden
                 >
                   <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                    <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p2.select)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
@@ -534,7 +528,7 @@ export default function GamePage() {
                     </span>
                   </div>
                   <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                    <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p2.start)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
@@ -547,7 +541,7 @@ export default function GamePage() {
                   aria-hidden
                 >
                   <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                    <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p2.b)}
                     </span>
                     <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
@@ -555,7 +549,7 @@ export default function GamePage() {
                     </span>
                   </div>
                   <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                    <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                       {keyCodeToLabel(bindings.p2.a)}
                     </span>
                     <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
@@ -584,7 +578,7 @@ export default function GamePage() {
                       <span className="min-w-[4.75rem] text-[var(--text-muted)]">
                         {PAD_ACTION_LABELS[action]}
                       </span>
-                      <code className="min-w-0 flex-1 rounded bg-[var(--surface-2)] px-2 py-1 font-mono text-[var(--text-h)]">
+                      <code className="min-w-0 flex-1 rounded bg-[var(--surface-2)] px-2 py-1 font-mono text-xs text-[var(--text-h)]">
                         {keyListen?.player === 2 && keyListen.action === action
                           ? '请按键…'
                           : keyCodeToLabel(bindings.p2[action])}
