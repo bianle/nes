@@ -1,41 +1,32 @@
-import { Keyboard, Loader2, Maximize2, Minimize2, X } from 'lucide-react'
+import { Keyboard, Loader2, Maximize2, Minimize2, RotateCcw, X } from 'lucide-react'
 import { useEffect, useId, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import type { Browser } from 'jsnes'
 import { getRomById } from '../data/roms'
-
-/** 与 jsnes Controller.BUTTON_* 一致：0=A … 7=右 */
-const BTN = { A: 0, B: 1, SEL: 2, START: 3, UP: 4, DOWN: 5, LEFT: 6, RIGHT: 7 } as const
-
-/** jsnes 键盘映射：keyCode -> [手柄号, 按键, 显示名] */
-const DEFAULT_KEYBOARD_KEYS: Record<number, [number, number, string]> = {
-  // 1P：K = A，J = B
-  74: [1, BTN.B, 'J'],
-  75: [1, BTN.A, 'K'],
-  // 1P：WASD（方向键留给 2P，同一 keyCode 无法绑两手柄）
-  87: [1, BTN.UP, 'W'],
-  83: [1, BTN.DOWN, 'S'],
-  65: [1, BTN.LEFT, 'A'],
-  68: [1, BTN.RIGHT, 'D'],
-  49: [1, BTN.SEL, '1'],
-  50: [1, BTN.START, '2'],
-  // 2P：方向键
-  38: [2, BTN.UP, 'Up'],
-  40: [2, BTN.DOWN, 'Down'],
-  37: [2, BTN.LEFT, 'Left'],
-  39: [2, BTN.RIGHT, 'Right'],
-  // 2P：小键盘 5 = A，4 = B；7 = Select，8 = Start
-  100: [2, BTN.B, 'Num-4'],
-  101: [2, BTN.A, 'Num-5'],
-  103: [2, BTN.SEL, 'Num-7'],
-  104: [2, BTN.START, 'Num-8'],
-}
+import {
+  assignBinding,
+  DEFAULT_STRUCTURED,
+  keyCodeToLabel,
+  loadStructuredBindings,
+  PAD_ACTION_EDIT_ORDER,
+  PAD_ACTION_LABELS,
+  type PadAction,
+  saveStructuredBindings,
+  structuredToFlat,
+} from '../lib/nesKeyboardBindings'
 
 export default function GamePage() {
   const { id } = useParams<{ id: string }>()
   const rom = id ? getRomById(id) : undefined
   const containerRef = useRef<HTMLDivElement>(null)
   const gameFrameRef = useRef<HTMLDivElement>(null)
+  const browserRef = useRef<Browser | null>(null)
+  const bindingsRef = useRef(loadStructuredBindings())
+  const [bindings, setBindings] = useState(() => loadStructuredBindings())
+  const [keyListen, setKeyListen] = useState<{
+    player: 1 | 2
+    action: PadAction
+  } | null>(null)
   const [gameFullscreen, setGameFullscreen] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -43,18 +34,51 @@ export default function GamePage() {
   const [keysHelpTab, setKeysHelpTab] = useState<'1p' | '2p'>('1p')
   const keysHelpTitleId = useId()
 
+  bindingsRef.current = bindings
+
   useEffect(() => {
     if (!keysHelpOpen) return
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setKeysHelpOpen(false)
+      if (e.key !== 'Escape') return
+      if (keyListen) {
+        e.preventDefault()
+        setKeyListen(null)
+        return
+      }
+      setKeysHelpOpen(false)
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [keysHelpOpen])
+  }, [keysHelpOpen, keyListen])
 
   useEffect(() => {
     if (keysHelpOpen) setKeysHelpTab('1p')
   }, [keysHelpOpen])
+
+  useEffect(() => {
+    if (!keysHelpOpen) setKeyListen(null)
+  }, [keysHelpOpen])
+
+  useEffect(() => {
+    if (!keyListen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (e.keyCode === 27) {
+        setKeyListen(null)
+        return
+      }
+      if ([9, 16, 17, 18, 91, 92].includes(e.keyCode)) return
+      const L = keyListen
+      const next = assignBinding(bindingsRef.current, L.player, L.action, e.keyCode)
+      setBindings(next)
+      saveStructuredBindings(next)
+      browserRef.current?.keyboard.setKeys(structuredToFlat(next))
+      setKeyListen(null)
+    }
+    window.addEventListener('keydown', onKeyDown, true)
+    return () => window.removeEventListener('keydown', onKeyDown, true)
+  }, [keyListen])
 
   useEffect(() => {
     const sync = () => {
@@ -96,7 +120,8 @@ export default function GamePage() {
             setError(String(e))
           },
         })
-        browser.keyboard.setKeys(DEFAULT_KEYBOARD_KEYS)
+        browser.keyboard.setKeys(structuredToFlat(bindingsRef.current))
+        browserRef.current = browser
 
         req = JsnBrowser.loadROMFromURL(rom.romUrl, (err, data) => {
           if (cancelled) {
@@ -134,11 +159,16 @@ export default function GamePage() {
 
     return () => {
       cancelled = true
+      browserRef.current = null
       ro.disconnect()
       req?.abort()
       browser?.destroy()
     }
   }, [rom])
+
+  useEffect(() => {
+    browserRef.current?.keyboard.setKeys(structuredToFlat(bindings))
+  }, [bindings])
 
   if (!id || !rom) {
     return <Navigate to="/" replace />
@@ -151,6 +181,13 @@ export default function GamePage() {
       ? document.exitFullscreen()
       : el.requestFullscreen()
     void done.catch(() => {})
+  }
+
+  const resetKeyBindings = () => {
+    setBindings(DEFAULT_STRUCTURED)
+    saveStructuredBindings(DEFAULT_STRUCTURED)
+    bindingsRef.current = DEFAULT_STRUCTURED
+    browserRef.current?.keyboard.setKeys(structuredToFlat(DEFAULT_STRUCTURED))
   }
 
   return (
@@ -218,11 +255,11 @@ export default function GamePage() {
         <button
           type="button"
           className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-          aria-label="键盘说明"
+          aria-label="按键说明"
           aria-expanded={keysHelpOpen}
           aria-haspopup="dialog"
           aria-controls={keysHelpOpen ? 'keys-help-dialog' : undefined}
-          title="键盘说明"
+          title="按键说明"
           onClick={() => setKeysHelpOpen(true)}
         >
           <Keyboard size={20} strokeWidth={2} aria-hidden />
@@ -251,21 +288,23 @@ export default function GamePage() {
           <div
             className="absolute inset-0 cursor-default bg-[rgba(8,8,12,0.55)] backdrop-blur-[2px]"
             role="presentation"
-            onClick={() => setKeysHelpOpen(false)}
+            onClick={() => {
+              if (!keyListen) setKeysHelpOpen(false)
+            }}
           />
           <div
             id="keys-help-dialog"
             role="dialog"
             aria-modal="true"
             aria-labelledby={keysHelpTitleId}
-            className="relative z-[1] w-full max-w-lg rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-5 text-left shadow-[0_16px_48px_rgba(0,0,0,0.22)]"
+            className="relative z-[1] max-h-[min(90dvh,720px)] w-full max-w-xl overflow-y-auto rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-5 text-left shadow-[0_16px_48px_rgba(0,0,0,0.22)]"
           >
             <div className="flex items-start justify-between gap-3">
               <h2
                 id={keysHelpTitleId}
                 className="m-0 text-base font-semibold text-[var(--text-h)]"
               >
-                键盘说明
+                按键说明与自定义
               </h2>
               <button
                 type="button"
@@ -343,7 +382,7 @@ export default function GamePage() {
               className="mt-4"
             >
               <p className="sr-only">
-                1P：W A S D 移动；K 为 A、J 为 B；1、2 为 Select、Start。
+                {`1P：${keyCodeToLabel(bindings.p1.up)}、${keyCodeToLabel(bindings.p1.left)}、${keyCodeToLabel(bindings.p1.down)}、${keyCodeToLabel(bindings.p1.right)} 移动；${keyCodeToLabel(bindings.p1.a)} 为 A、${keyCodeToLabel(bindings.p1.b)} 为 B；${keyCodeToLabel(bindings.p1.select)}、${keyCodeToLabel(bindings.p1.start)} 为 Select、Start。`}
               </p>
               <div className="flex flex-wrap items-end justify-center gap-5 sm:gap-8 py-4">
                 <div
@@ -351,38 +390,38 @@ export default function GamePage() {
                   aria-hidden
                 >
                   <div className="grid h-full w-full grid-cols-3 grid-rows-3 gap-1 [grid-template-columns:repeat(3,2.25rem)] [grid-template-rows:repeat(3,2.25rem)]">
-                  <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-sm font-semibold text-[var(--text-h)]">
-                    W
-                  </span>
-                  <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-sm font-semibold text-[var(--text-h)]">
-                    A
-                  </span>
-                  <span className="col-start-2 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-muted)]">
-                    ·
-                  </span>
-                  <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-sm font-semibold text-[var(--text-h)]">
-                    D
-                  </span>
-                  <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-sm font-semibold text-[var(--text-h)]">
-                    S
-                  </span>
+                    <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p1.up)}
+                    </span>
+                    <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p1.left)}
+                    </span>
+                    <span className="col-start-2 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-muted)]">
+                      ·
+                    </span>
+                    <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p1.right)}
+                    </span>
+                    <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p1.down)}
+                    </span>
                   </div>
                 </div>
                 <div
                   className="flex shrink-0 items-end gap-2 sm:gap-3"
                   aria-hidden
                 >
-                  <div className="flex h-11 w-[4.25rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="text-sm font-bold tabular-nums text-[var(--text-h)]">
-                      1
+                  <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
+                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                      {keyCodeToLabel(bindings.p1.select)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                       Select
                     </span>
                   </div>
-                  <div className="flex h-11 w-[4.25rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="text-sm font-bold tabular-nums text-[var(--text-h)]">
-                      2
+                  <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
+                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                      {keyCodeToLabel(bindings.p1.start)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                       Start
@@ -393,23 +432,59 @@ export default function GamePage() {
                   className="flex shrink-0 items-center gap-3 sm:gap-4"
                   aria-hidden
                 >
-                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="text-base font-bold leading-none text-[var(--text-h)]">
-                      K
+                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
+                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                      {keyCodeToLabel(bindings.p1.a)}
                     </span>
                     <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
                       A
                     </span>
                   </div>
-                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="text-base font-bold leading-none text-[var(--text-h)]">
-                      J
+                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
+                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                      {keyCodeToLabel(bindings.p1.b)}
                     </span>
                     <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
                       B
                     </span>
                   </div>
                 </div>
+              </div>
+              <div className="mt-2 border-t border-[var(--border)] pt-4">
+                <h3 className="m-0 text-sm font-semibold text-[var(--text-h)]">
+                  自定义 1P 按键
+                </h3>
+                <p className="mt-1 text-xs text-[var(--text-muted)]">
+                  点击「更改」后按下新键；Esc
+                  取消。若与另一项冲突，冲突项会恢复为默认键。
+                </p>
+                <ul
+                  className="mt-2 divide-y divide-[var(--border)] rounded-[var(--radius-sm)] border border-[var(--border)]"
+                  aria-label="1P 键位列表"
+                >
+                  {PAD_ACTION_EDIT_ORDER.map((action) => (
+                    <li
+                      key={action}
+                      className="flex flex-wrap items-center gap-2 px-2 py-2 text-sm"
+                    >
+                      <span className="min-w-[4.75rem] text-[var(--text-muted)]">
+                        {PAD_ACTION_LABELS[action]}
+                      </span>
+                      <code className="min-w-0 flex-1 rounded bg-[var(--surface-2)] px-2 py-1 font-mono text-[var(--text-h)]">
+                        {keyListen?.player === 1 && keyListen.action === action
+                          ? '请按键…'
+                          : keyCodeToLabel(bindings.p1[action])}
+                      </code>
+                      <button
+                        type="button"
+                        className="shrink-0 rounded-md px-2 py-1 text-xs font-medium text-[var(--accent)] hover:bg-[var(--accent-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                        onClick={() => setKeyListen({ player: 1, action })}
+                      >
+                        更改
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
@@ -421,46 +496,46 @@ export default function GamePage() {
               className="mt-4"
             >
               <p className="sr-only">
-                2P：方向键移动；小键盘 5 为 A、4 为 B；7、8 为 Select、Start。
+                {`2P：${keyCodeToLabel(bindings.p2.up)}、${keyCodeToLabel(bindings.p2.left)}、${keyCodeToLabel(bindings.p2.down)}、${keyCodeToLabel(bindings.p2.right)} 移动；${keyCodeToLabel(bindings.p2.a)} 为 A、${keyCodeToLabel(bindings.p2.b)} 为 B；${keyCodeToLabel(bindings.p2.select)}、${keyCodeToLabel(bindings.p2.start)} 为 Select、Start。`}
               </p>
-              <div className="flex flex-wrap items-end justify-center gap-5 sm:gap-8">
+              <div className="flex flex-wrap items-end justify-center gap-5 sm:gap-8 py-4">
                 <div
                   className="size-[7.25rem] shrink-0"
                   aria-hidden
                 >
                   <div className="grid h-full w-full grid-cols-3 grid-rows-3 gap-1 [grid-template-columns:repeat(3,2.25rem)] [grid-template-rows:repeat(3,2.25rem)]">
-                  <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-lg leading-none text-[var(--text-h)]">
-                    ↑
-                  </span>
-                  <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-lg leading-none text-[var(--text-h)]">
-                    ←
-                  </span>
-                  <span className="col-start-2 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-muted)]">
-                    ·
-                  </span>
-                  <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-lg leading-none text-[var(--text-h)]">
-                    →
-                  </span>
-                  <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-lg leading-none text-[var(--text-h)]">
-                    ↓
-                  </span>
+                    <span className="col-start-2 row-start-1 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p2.up)}
+                    </span>
+                    <span className="col-start-1 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p2.left)}
+                    </span>
+                    <span className="col-start-2 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-muted)]">
+                      ·
+                    </span>
+                    <span className="col-start-3 row-start-2 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p2.right)}
+                    </span>
+                    <span className="col-start-2 row-start-3 flex items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-0.5 text-center text-[11px] font-semibold leading-tight text-[var(--text-h)] sm:text-xs">
+                      {keyCodeToLabel(bindings.p2.down)}
+                    </span>
                   </div>
                 </div>
                 <div
                   className="flex shrink-0 items-end gap-2 sm:gap-3"
                   aria-hidden
                 >
-                  <div className="flex h-11 w-[4.25rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="text-sm font-bold tabular-nums text-[var(--text-h)]">
-                      7
+                  <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
+                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                      {keyCodeToLabel(bindings.p2.select)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                       Select
                     </span>
                   </div>
-                  <div className="flex h-11 w-[4.25rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
-                    <span className="text-sm font-bold tabular-nums text-[var(--text-h)]">
-                      8
+                  <div className="flex h-11 min-w-[4.25rem] max-w-[5rem] flex-col items-center justify-center rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1">
+                    <span className="max-w-full truncate text-center text-sm font-bold text-[var(--text-h)]">
+                      {keyCodeToLabel(bindings.p2.start)}
                     </span>
                     <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                       Start
@@ -471,25 +546,71 @@ export default function GamePage() {
                   className="flex shrink-0 items-center gap-3 sm:gap-4"
                   aria-hidden
                 >
-                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="text-base font-bold leading-none text-[var(--text-h)]">
-                      4
-                    </span>
-                    <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
-                      A
-                    </span>
-                  </div>
-                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
-                    <span className="text-base font-bold leading-none text-[var(--text-h)]">
-                      5
+                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
+                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                      {keyCodeToLabel(bindings.p2.b)}
                     </span>
                     <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
                       B
                     </span>
                   </div>
+                  <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)]">
+                    <span className="max-w-full truncate text-center text-sm font-bold leading-none text-[var(--text-h)] sm:text-base">
+                      {keyCodeToLabel(bindings.p2.a)}
+                    </span>
+                    <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
+                      A
+                    </span>
+                  </div>
                 </div>
               </div>
-              
+              <div className="mt-2 border-t border-[var(--border)] pt-4">
+                <h3 className="m-0 text-sm font-semibold text-[var(--text-h)]">
+                  自定义 2P 按键
+                </h3>
+                <p className="mt-1 text-xs text-[var(--text-muted)]">
+                  点击「更改」后按下新键；Esc
+                  取消。若与另一项冲突，冲突项会恢复为默认键。
+                </p>
+                <ul
+                  className="mt-2 divide-y divide-[var(--border)] rounded-[var(--radius-sm)] border border-[var(--border)]"
+                  aria-label="2P 键位列表"
+                >
+                  {PAD_ACTION_EDIT_ORDER.map((action) => (
+                    <li
+                      key={action}
+                      className="flex flex-wrap items-center gap-2 px-2 py-2 text-sm"
+                    >
+                      <span className="min-w-[4.75rem] text-[var(--text-muted)]">
+                        {PAD_ACTION_LABELS[action]}
+                      </span>
+                      <code className="min-w-0 flex-1 rounded bg-[var(--surface-2)] px-2 py-1 font-mono text-[var(--text-h)]">
+                        {keyListen?.player === 2 && keyListen.action === action
+                          ? '请按键…'
+                          : keyCodeToLabel(bindings.p2[action])}
+                      </code>
+                      <button
+                        type="button"
+                        className="shrink-0 rounded-md px-2 py-1 text-xs font-medium text-[var(--accent)] hover:bg-[var(--accent-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                        onClick={() => setKeyListen({ player: 2, action })}
+                      >
+                        更改
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-end gap-2 border-t border-[var(--border)] pt-4">
+              <button
+                type="button"
+                className="inline-flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm font-medium text-[var(--text-h)] hover:bg-[var(--bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                onClick={resetKeyBindings}
+              >
+                <RotateCcw size={16} strokeWidth={2} aria-hidden />
+                恢复默认键位
+              </button>
             </div>
           </div>
         </div>
