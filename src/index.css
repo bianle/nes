@@ -177,28 +177,10 @@
   }
 }
 
-@keyframes key-bind-listen-pulse-face {
-  0%,
-  100% {
-    box-shadow:
-      inset 0 -3px 0 rgba(0, 0, 0, 0.06),
-      inset 0 0 0 9999px color-mix(in srgb, var(--accent) 12%, transparent);
-  }
-  50% {
-    box-shadow:
-      inset 0 -3px 0 rgba(0, 0, 0, 0.06),
-      inset 0 0 0 9999px color-mix(in srgb, var(--accent) 26%, transparent);
-  }
-}
-
 .key-bind-listening {
   animation: key-bind-listen-pulse 1.15s ease-in-out infinite;
   /* 编辑态去掉常态描边，只保留半透明铺底闪烁 */
   border-color: transparent !important;
-}
-
-.key-bind-listening--face {
-  animation-name: key-bind-listen-pulse-face;
 }
 
 @media (prefers-reduced-motion: reduce) {

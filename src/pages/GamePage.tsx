@@ -40,7 +40,6 @@ function PlayerPadDiagram({
     keyListen?.player === player && keyListen.action === a
 
   const listeningClass = 'key-bind-listening'
-  const listeningClassFace = 'key-bind-listening key-bind-listening--face'
 
   const padKeyButton = (action: PadAction, className: string) => {
     const is = listen(action)
@@ -148,7 +147,7 @@ function PlayerPadDiagram({
           <>
             <button
               type="button"
-              className={`flex h-14 w-14 cursor-pointer flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)] transition-shadow hover:brightness-[1.03] focus-visible:outline-none ${listen('a') ? listeningClassFace : ''}`}
+              className={`flex h-14 w-14 shrink-0 cursor-pointer flex-col items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1 transition-shadow hover:bg-[var(--bg)] focus-visible:outline-none ${listen('a') ? listeningClass : ''}`}
               aria-pressed={listen('a')}
               aria-label={
                 listen('a')
@@ -159,21 +158,21 @@ function PlayerPadDiagram({
             >
               {listen('a') ? (
                 <span
-                  className="max-w-full min-h-[1em] text-center text-[10px] font-bold leading-tight tracking-tight sm:text-[10px]"
+                  className="max-w-full min-h-[1em] text-center text-[9px] font-bold leading-tight tracking-tight sm:text-[10px]"
                   aria-hidden
                 />
               ) : (
-                <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
+                <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                   {keyCodeToLabel(b.a)}
                 </span>
               )}
-              <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
+              <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                 A
               </span>
             </button>
             <button
               type="button"
-              className={`flex h-14 w-14 cursor-pointer flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)] transition-shadow hover:brightness-[1.03] focus-visible:outline-none ${listen('b') ? listeningClassFace : ''}`}
+              className={`flex h-14 w-14 shrink-0 cursor-pointer flex-col items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1 transition-shadow hover:bg-[var(--bg)] focus-visible:outline-none ${listen('b') ? listeningClass : ''}`}
               aria-pressed={listen('b')}
               aria-label={
                 listen('b')
@@ -184,15 +183,15 @@ function PlayerPadDiagram({
             >
               {listen('b') ? (
                 <span
-                  className="max-w-full min-h-[1em] text-center text-[10px] font-bold leading-tight tracking-tight sm:text-[10px]"
+                  className="max-w-full min-h-[1em] text-center text-[9px] font-bold leading-tight tracking-tight sm:text-[10px]"
                   aria-hidden
                 />
               ) : (
-                <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
+                <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                   {keyCodeToLabel(b.b)}
                 </span>
               )}
-              <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
+              <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                 B
               </span>
             </button>
@@ -201,7 +200,7 @@ function PlayerPadDiagram({
           <>
             <button
               type="button"
-              className={`flex h-14 w-14 cursor-pointer flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)] transition-shadow hover:brightness-[1.03] focus-visible:outline-none ${listen('b') ? listeningClassFace : ''}`}
+              className={`flex h-14 w-14 shrink-0 cursor-pointer flex-col items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1 transition-shadow hover:bg-[var(--bg)] focus-visible:outline-none ${listen('b') ? listeningClass : ''}`}
               aria-pressed={listen('b')}
               aria-label={
                 listen('b')
@@ -212,21 +211,21 @@ function PlayerPadDiagram({
             >
               {listen('b') ? (
                 <span
-                  className="max-w-full min-h-[1em] text-center text-[10px] font-bold leading-tight tracking-tight sm:text-[10px]"
+                  className="max-w-full min-h-[1em] text-center text-[9px] font-bold leading-tight tracking-tight sm:text-[10px]"
                   aria-hidden
                 />
               ) : (
-                <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
+                <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                   {keyCodeToLabel(b.b)}
                 </span>
               )}
-              <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
+              <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                 B
               </span>
             </button>
             <button
               type="button"
-              className={`flex h-14 w-14 cursor-pointer flex-col items-center justify-center rounded-full border-2 border-[var(--accent-border)] bg-[var(--accent-soft)] px-1 shadow-[inset_0_-3px_0_rgba(0,0,0,0.06)] transition-shadow hover:brightness-[1.03] focus-visible:outline-none ${listen('a') ? listeningClassFace : ''}`}
+              className={`flex h-14 w-14 shrink-0 cursor-pointer flex-col items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-1 py-1 transition-shadow hover:bg-[var(--bg)] focus-visible:outline-none ${listen('a') ? listeningClass : ''}`}
               aria-pressed={listen('a')}
               aria-label={
                 listen('a')
@@ -237,15 +236,15 @@ function PlayerPadDiagram({
             >
               {listen('a') ? (
                 <span
-                  className="max-w-full min-h-[1em] text-center text-[10px] font-bold leading-tight tracking-tight sm:text-[10px]"
+                  className="max-w-full min-h-[1em] text-center text-[9px] font-bold leading-tight tracking-tight sm:text-[10px]"
                   aria-hidden
                 />
               ) : (
-                <span className="max-w-full text-center text-[10px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
+                <span className="max-w-full text-center text-[9px] font-bold leading-tight tracking-tight text-[var(--text-h)] sm:text-[10px]">
                   {keyCodeToLabel(b.a)}
                 </span>
               )}
-              <span className="mt-0.5 text-[10px] font-medium text-[var(--text-muted)]">
+              <span className="text-[10px] leading-tight text-[var(--text-muted)]">
                 A
               </span>
             </button>
