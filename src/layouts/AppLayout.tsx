@@ -30,23 +30,14 @@ export default function AppLayout() {
             />
             <span className="truncate">小霸王其乐无穷</span>
           </Link>
-          <div className="flex min-w-0 flex-1 items-center justify-end gap-5 sm:gap-7">
-            <nav
-              className="flex shrink-0 items-center gap-5 sm:gap-7"
-              aria-label="主导航"
-            >
-              <NavLink to="/" end className={navLinkClassName}>
-                游戏库
-              </NavLink>
-              <NavLink to="/about" className={navLinkClassName}>
-                关于
-              </NavLink>
-            </nav>
-            <div className="flex shrink-0 items-center gap-1">
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-3 sm:gap-5">
+            <div className="flex min-w-0 items-center gap-5 sm:gap-7">
               <button
                 type="button"
-                className={`inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-transparent text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
-                  isOpen ? 'bg-[var(--accent-soft)] text-[var(--accent)]' : ''
+                className={`inline-flex h-8 shrink-0 items-center gap-2 rounded-full px-2.5 text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:gap-2.5 sm:px-3 ${
+                  isOpen
+                    ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'bg-[var(--surface-2)] hover:bg-[var(--accent-soft)]'
                 }`}
                 aria-expanded={isOpen}
                 aria-haspopup="dialog"
@@ -54,8 +45,22 @@ export default function AppLayout() {
                 title="搜索（Ctrl+K）"
                 onClick={() => (isOpen ? close() : open())}
               >
-                <Search size={20} strokeWidth={2} aria-hidden />
+                <Search className="size-4 shrink-0" strokeWidth={2} aria-hidden />
+                <span className="hidden select-none sm:inline">Ctrl K</span>
               </button>
+              <nav
+                className="flex shrink-0 items-center gap-5 sm:gap-7"
+                aria-label="主导航"
+              >
+                <NavLink to="/" end className={navLinkClassName}>
+                  游戏库
+                </NavLink>
+                <NavLink to="/about" className={navLinkClassName}>
+                  关于
+                </NavLink>
+              </nav>
+            </div>
+            <div className="flex shrink-0 items-center gap-1">
               <AccentPicker />
               <ThemeToggle />
             </div>
