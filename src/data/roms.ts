@@ -20,15 +20,33 @@ export interface RomEntry {
 export const roms: RomEntry[] = [
   {
     id: '1',
-    title: '超级马里奥兄弟世界',
-    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/nes_supermariobros_4b876708ad.jpg',
+    title: '超级马里奥兄弟',
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_Super_Mario_Bros_W_E_FDS_686c65e139.png',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Super_Mario_Bros_World_fd4079458a.nes',
   },
   {
     id: '2',
+    title: '快打旋风',
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_2_1c234f64b4.jpg',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_13fa26ab32.nes',
+  },
+  {
+    id: '3',
     title: '一二功夫',
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_7c2bb6e10f.jpg',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_5d041d510a.nes',
+  },
+  {
+    id: '4',
+    title: '炸弹人',
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_Bomberman_J_FDS_310c88b599.png',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_43892d0835.nes',
+  },
+  {
+    id: '5',
+    title: '古巴战士',
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/3_e83410eb63.jpg',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_57a596daea.nes',
   },
 ]
 

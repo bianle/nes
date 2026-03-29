@@ -8,24 +8,24 @@ export default function RomList() {
         {roms.map((rom) => (
           <li key={rom.id} className="min-h-0 min-w-0">
             <Link
-              className="group flex h-full min-h-[4.75rem] flex-row items-center gap-2 rounded-[var(--radius)] bg-[var(--surface-2)] p-2.5 text-inherit no-underline transition-colors duration-200 hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--accent)] sm:gap-3 sm:p-3"
+              className="group flex h-full min-h-[4.75rem] flex-row items-start gap-2 rounded-[var(--radius)] bg-[var(--surface-2)] p-2.5 text-inherit no-underline transition-colors duration-200 hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--accent)] sm:gap-3 sm:p-3"
               to={`/game/${rom.id}`}
             >
-              <div className="aspect-[4/3] w-16 shrink-0 overflow-hidden rounded-[var(--radius-sm)] bg-[#0d0e12] sm:w-20 lg:w-24">
+              <div className="aspect-[3/4] w-14 shrink-0 overflow-hidden rounded-[var(--radius-sm)] bg-[#0d0e12] sm:w-[4.5rem] lg:w-20">
                 <img
                   className="block h-full w-full object-cover transition-transform duration-[350ms] ease-out group-hover:scale-[1.04]"
                   src={rom.cover}
                   alt=""
-                  width={320}
+                  width={180}
                   height={240}
                   loading="lazy"
                 />
               </div>
-              <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-center gap-1.5 sm:gap-2">
+              <div className="flex min-h-0 min-w-0 flex-1 flex-col self-stretch">
                 <span className="line-clamp-2 text-[13px] font-semibold leading-snug text-[var(--text-h)] sm:text-[15px]">
                   {rom.title}
                 </span>
-                <span className="w-fit shrink-0 rounded-full border-2 border-[var(--accent)] bg-transparent px-2 py-1 text-[10px] font-semibold leading-none tracking-[0.04em] text-[var(--accent)] transition-transform duration-200 ease-out group-hover:translate-x-0.5 sm:px-2.5 sm:py-1.5 sm:text-xs">
+                <span className="mt-auto w-fit shrink-0 self-end rounded-full border-2 border-[var(--accent)] bg-transparent px-2 py-1 text-[10px] font-semibold leading-none tracking-[0.04em] text-[var(--accent)] sm:px-2.5 sm:py-1.5 sm:text-xs">
                   开始游玩
                 </span>
               </div>

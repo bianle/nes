@@ -1,3 +1,4 @@
+import { Gamepad2 } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 import AccentPicker from '../components/AccentPicker'
 import ThemeToggle from '../components/ThemeToggle'
@@ -9,8 +10,13 @@ export default function AppLayout() {
         <div className="mx-auto flex h-14 max-w-[min(1200px,100%)] items-center justify-between gap-4 px-4 sm:px-5">
           <Link
             to="/"
-            className="text-base font-semibold tracking-tight text-[var(--text-h)] no-underline transition-opacity hover:opacity-80 focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="inline-flex items-center gap-2 text-base font-semibold tracking-tight text-[var(--text-h)] no-underline transition-opacity hover:opacity-80 focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
+            <Gamepad2
+              className="size-5 shrink-0 text-[var(--accent)]"
+              strokeWidth={2}
+              aria-hidden
+            />
             小霸王其乐无穷
           </Link>
           <div className="flex items-center gap-1">
