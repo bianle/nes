@@ -42,15 +42,15 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-h)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+      className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-h)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
       aria-label={label}
       aria-pressed={isDark}
       title={label}
     >
       {isDark ? (
-        <Sun size={20} strokeWidth={2} aria-hidden />
+        <Sun size={14} strokeWidth={2} aria-hidden />
       ) : (
-        <Moon size={20} strokeWidth={2} aria-hidden />
+        <Moon size={14} strokeWidth={2} aria-hidden />
       )}
     </button>
   )

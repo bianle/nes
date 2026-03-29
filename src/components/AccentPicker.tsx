@@ -46,13 +46,13 @@ export default function AccentPicker() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-h)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+        className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-h)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         aria-label="主题色"
         aria-expanded={open}
         aria-haspopup="dialog"
         title="主题色"
       >
-        <Palette size={20} strokeWidth={2} aria-hidden />
+        <Palette size={14} strokeWidth={2} aria-hidden />
       </button>
 
       {open && (

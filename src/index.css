@@ -23,8 +23,8 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
+  /* 16px：与 Tailwind rem 默认一致（如 h-6=24px）；正文字号见 body */
+  font-size: 16px;
   color-scheme: light;
   color: var(--text);
   background: var(--bg);
@@ -32,10 +32,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
 :root[data-theme='dark'] {
@@ -175,6 +171,17 @@
 @layer base {
   body {
     @apply m-0 min-h-svh bg-[var(--bg)];
+    font-family: var(--sans);
+    font-size: 1.125rem;
+    line-height: 145%;
+    letter-spacing: 0.18px;
+    color: var(--text);
+  }
+
+  @media (max-width: 1024px) {
+    body {
+      font-size: 1rem;
+    }
   }
 
   #root {

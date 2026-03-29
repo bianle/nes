@@ -5,7 +5,7 @@ import ThemeToggle from '../components/ThemeToggle'
 import { useGlobalSearch } from '../context/GlobalSearchContext'
 
 function navLinkClassName({ isActive }: { isActive: boolean }) {
-  return `text-sm font-medium no-underline transition-colors focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+  return `inline-flex h-6 items-center text-sm font-medium leading-none no-underline transition-colors focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
     isActive
       ? 'text-[var(--accent)]'
       : 'text-[var(--text-muted)] hover:text-[var(--accent)]'
@@ -18,13 +18,13 @@ export default function AppLayout() {
   return (
     <div className="flex min-h-svh w-full flex-col bg-[var(--bg)] text-left">
       <header className="sticky top-0 z-20 bg-[var(--bg)]">
-        <div className="mx-auto flex h-14 max-w-[min(1200px,100%)] items-center gap-4 px-4 sm:px-5">
+        <div className="mx-auto flex h-12 max-w-[min(1200px,100%)] items-center gap-4 px-4 sm:px-5">
           <Link
             to="/"
-            className="inline-flex min-w-0 shrink items-center gap-2 text-base font-semibold tracking-tight text-[var(--text-h)] no-underline transition-opacity hover:opacity-80 focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="inline-flex min-w-0 shrink items-center gap-2 text-lg font-semibold tracking-tight text-[var(--text-h)] no-underline transition-opacity hover:opacity-80 focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
             <Gamepad2
-              className="size-5 shrink-0 text-[var(--accent)]"
+              className="size-8 shrink-0 text-[var(--accent)]"
               strokeWidth={2}
               aria-hidden
             />
@@ -34,7 +34,7 @@ export default function AppLayout() {
             <div className="flex min-w-0 items-center gap-5 sm:gap-7">
               <button
                 type="button"
-                className={`inline-flex h-8 shrink-0 items-center gap-2 rounded-full px-2.5 text-sm text-[var(--text-muted)] transition-colors hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:gap-2.5 sm:px-3 ${
+                className={`inline-flex h-6 min-h-6 shrink-0 items-center gap-1.5 rounded-full px-2 text-xs leading-none text-[var(--text-muted)] transition-colors hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:gap-2 sm:px-2.5 ${
                   isOpen
                     ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
                     : 'bg-[var(--surface-2)] hover:bg-[var(--accent-soft)]'
@@ -45,8 +45,10 @@ export default function AppLayout() {
                 title="搜索（Ctrl+K）"
                 onClick={() => (isOpen ? close() : open())}
               >
-                <Search className="size-4 shrink-0" strokeWidth={2} aria-hidden />
-                <span className="hidden select-none sm:inline">Ctrl K</span>
+                <Search className="size-3 shrink-0" strokeWidth={2} aria-hidden />
+                <span className="hidden select-none text-xs leading-none sm:inline">
+                  Ctrl K
+                </span>
               </button>
               <nav
                 className="flex shrink-0 items-center gap-5 sm:gap-7"
