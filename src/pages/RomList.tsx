@@ -4,6 +4,12 @@ import { roms } from '../data/roms'
 export default function RomList() {
   return (
     <div className="flex flex-1 flex-col px-5 pb-12 pt-5 text-left">
+      <div className="mx-auto mb-4 w-full max-w-[min(1200px,100%)]">
+        <h1 className="!my-0 max-lg:!my-0 text-2xl font-semibold leading-tight tracking-tight text-[var(--text-h)] sm:text-3xl">
+          游戏库
+        </h1>
+      </div>
+
       <ul className="m-0 mx-auto grid w-full max-w-[min(1200px,100%)] list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
         {roms.map((rom) => (
           <li key={rom.id} className="min-h-0 min-w-0">
@@ -21,18 +27,36 @@ export default function RomList() {
                   loading="lazy"
                 />
               </div>
-              <div className="flex min-h-0 min-w-0 flex-1 flex-col self-stretch">
+              <div className="flex min-h-0 min-w-0 flex-1 flex-col self-stretch gap-1.5 sm:gap-2">
                 <span className="line-clamp-2 text-[13px] font-semibold leading-snug text-[var(--text-h)] sm:text-[15px]">
                   {rom.title}
                 </span>
-                <span className="mt-auto w-fit shrink-0 self-end rounded-full border-2 border-[var(--accent)] bg-transparent px-2 py-1 text-[10px] font-semibold leading-none tracking-[0.04em] text-[var(--accent)] sm:px-2.5 sm:py-1.5 sm:text-xs">
-                  开始游玩
-                </span>
+                {rom.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {rom.tags.map((tag, i) => (
+                      <span
+                        key={`${rom.id}-${tag}-${i}`}
+                        className="rounded-md border border-[var(--accent-border)] bg-transparent px-1.5 py-0.5 text-[10px] font-medium leading-none text-[var(--accent)]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <p className="line-clamp-2 text-[11px] leading-snug text-[var(--text-muted)] sm:text-xs">
+                  {rom.description}
+                </p>
               </div>
             </Link>
           </li>
         ))}
       </ul>
+
+      {roms.length === 0 && (
+        <p className="mx-auto mt-6 w-full max-w-[min(1200px,100%)] text-center text-sm text-[var(--text-muted)]">
+          暂无游戏。
+        </p>
+      )}
     </div>
   )
 }

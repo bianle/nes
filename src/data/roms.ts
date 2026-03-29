@@ -1,6 +1,10 @@
 export interface RomEntry {
   id: string
   title: string
+  /** 列表卡片上的一句话介绍 */
+  description: string
+  /** 分类或玩法标签，展示为小标签 */
+  tags: string[]
   /**
    * 封面图地址：本站相对路径（如 `/covers/a.png`）或完整网络地址（`https://...`）均可。
    */
@@ -21,30 +25,40 @@ export const roms: RomEntry[] = [
   {
     id: '1',
     title: '超级马里奥兄弟',
+    description: '任天堂平台跳跃代表作，顶蘑菇、钻水管，拯救公主的经典旅程。',
+    tags: ['平台', '冒险'],
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_Super_Mario_Bros_W_E_FDS_686c65e139.png',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Super_Mario_Bros_World_fd4079458a.nes',
   },
   {
     id: '2',
     title: '快打旋风',
+    description: '清版过关动作游戏，三人可选，拳脚连招扫街除恶。',
+    tags: ['动作', '单人'],
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_2_1c234f64b4.jpg',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_13fa26ab32.nes',
   },
   {
     id: '3',
     title: '一二功夫',
+    description: '早期格斗小品，节奏明快，适合热身与怀旧。',
+    tags: ['格斗', '单人'],
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_7c2bb6e10f.jpg',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_5d041d510a.nes',
   },
   {
     id: '4',
     title: '炸弹人',
+    description: '放置炸弹开路、炸敌人与砖块，迷宫里考验走位与时机。',
+    tags: ['益智', '单人'],
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_Bomberman_J_FDS_310c88b599.png',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_43892d0835.nes',
   },
   {
     id: '5',
     title: '古巴战士',
+    description: '俯冲射击闯关，救战友、打坦克，街机移植的火爆手感。',
+    tags: ['射击', '双人'],
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/3_e83410eb63.jpg',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_57a596daea.nes',
   },

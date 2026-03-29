@@ -1,9 +1,12 @@
-import { Gamepad2 } from 'lucide-react'
+import { Gamepad2, Search } from 'lucide-react'
 import { Link, Outlet } from 'react-router-dom'
 import AccentPicker from '../components/AccentPicker'
 import ThemeToggle from '../components/ThemeToggle'
+import { useGlobalSearch } from '../context/GlobalSearchContext'
 
 export default function AppLayout() {
+  const { isOpen, open, close } = useGlobalSearch()
+
   return (
     <div className="flex min-h-svh w-full flex-col bg-[var(--bg)] text-left">
       <header className="sticky top-0 z-20 bg-[var(--bg)]">
@@ -20,6 +23,19 @@ export default function AppLayout() {
             小霸王其乐无穷
           </Link>
           <div className="flex items-center gap-1">
+            <button
+              type="button"
+              className={`inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-transparent text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+                isOpen ? 'bg-[var(--accent-soft)] text-[var(--accent)]' : ''
+              }`}
+              aria-expanded={isOpen}
+              aria-haspopup="dialog"
+              aria-label="搜索游戏"
+              title="搜索（Ctrl+K）"
+              onClick={() => (isOpen ? close() : open())}
+            >
+              <Search size={20} strokeWidth={2} aria-hidden />
+            </button>
             <AccentPicker />
             <ThemeToggle />
           </div>
