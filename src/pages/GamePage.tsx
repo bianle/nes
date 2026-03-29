@@ -473,7 +473,7 @@ export default function GamePage() {
       <h1 className="sr-only">{rom.title}</h1>
       <div
         ref={gameFrameRef}
-        className="group relative mx-auto w-full max-w-[min(760px,100%)] [&:fullscreen]:flex [&:fullscreen]:h-screen [&:fullscreen]:min-h-0 [&:fullscreen]:w-screen [&:fullscreen]:max-w-none [&:fullscreen]:items-center [&:fullscreen]:justify-center [&:fullscreen]:bg-black"
+        className="relative mx-auto flex w-full max-w-[min(760px,100%)] flex-col [&:fullscreen]:h-screen [&:fullscreen]:min-h-0 [&:fullscreen]:w-screen [&:fullscreen]:max-w-none [&:fullscreen]:bg-black"
       >
         {loading && !error && (
           <div
@@ -514,24 +514,32 @@ export default function GamePage() {
           </div>
         )}
         <div
-          ref={containerRef}
-          className={`overflow-hidden bg-transparent leading-none outline-none [&_canvas]:block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--accent)] ${
+          className={
             gameFullscreen
-              ? 'aspect-[256/240] w-[min(100%,min(100vw,calc(100dvh*256/240)))] max-w-full shrink-0'
-              : 'aspect-[256/240] w-full'
-          }`}
-          tabIndex={0}
-          aria-label={`${rom.title} 游戏画面`}
-        />
+              ? 'flex min-h-0 flex-1 items-center justify-center'
+              : undefined
+          }
+        >
+          <div
+            ref={containerRef}
+            className={`overflow-hidden bg-transparent leading-none outline-none [&_canvas]:block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--accent)] ${
+              gameFullscreen
+                ? 'aspect-[256/240] w-[min(100%,min(100vw,calc((100dvh-4rem)*256/240)))] max-w-full shrink-0'
+                : 'aspect-[256/240] w-full'
+            }`}
+            tabIndex={0}
+            aria-label={`${rom.title} 游戏画面`}
+          />
+        </div>
 
         <div
-          className="pointer-events-none absolute bottom-[max(0.5rem,env(safe-area-inset-bottom))] left-1/2 z-[2] flex -translate-x-1/2 items-center gap-2 rounded-[var(--radius-sm)] border border-[var(--border)]/70 bg-[var(--surface-2)]/72 px-2 py-1.5 opacity-0 shadow-lg backdrop-blur-md transition-opacity duration-200 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100"
+          className="z-[2] flex w-full shrink-0 items-center justify-center gap-2 bg-black px-2 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
           role="toolbar"
           aria-label="游戏工具"
         >
           <button
             type="button"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
             aria-label="自定义按键"
             aria-expanded={keysHelpOpen}
             aria-haspopup="dialog"
@@ -543,7 +551,7 @@ export default function GamePage() {
           </button>
           <button
             type="button"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
             aria-label={gameFullscreen ? '退出全屏' : '全屏'}
             aria-pressed={gameFullscreen}
             title={gameFullscreen ? '退出全屏' : '全屏'}

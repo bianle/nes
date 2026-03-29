@@ -95,6 +95,14 @@ export const roms: RomEntry[] = [
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/2_Chip_to_Dale_no_Daisakusen_2_J_c13ecc5727.png',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/2_1661eda835.nes',
   },
+  {
+    id: '10',
+    title: '超级魂斗罗',
+    description: '超级魂斗罗，打魂斗罗，街机移植的火爆手感。',
+    tags: ['射击', '双人'],
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Super_C_U_c6b9029002.png',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_a176e2f4ed.nes',
+  },
 ]
 
 export function getRomById(id: string): RomEntry | undefined {
