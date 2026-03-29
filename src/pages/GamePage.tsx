@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import type { Browser } from 'jsnes'
@@ -92,19 +92,7 @@ export default function GamePage() {
 
   return (
     <div className="flex min-h-full flex-col px-4 pb-9 pt-5 text-left">
-      <header className="relative mb-5 flex min-h-[2.75rem] items-center justify-center max-[520px]:min-h-0 max-[520px]:flex-col max-[520px]:items-start max-[520px]:justify-start max-[520px]:gap-2.5">
-        <Link
-          className="absolute left-0 top-1/2 flex -translate-y-1/2 items-center gap-1.5 rounded-md py-1.5 text-[15px] font-medium text-[var(--accent)] no-underline transition-opacity duration-150 ease-out hover:opacity-85 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--accent)] max-[520px]:static max-[520px]:translate-none"
-          to="/"
-        >
-          <ArrowLeft size={18} strokeWidth={2} aria-hidden />
-          返回列表
-        </Link>
-        <h1 className="m-0 box-border max-w-full px-[6.5rem] text-center text-[clamp(20px,2.8vw,26px)] font-medium leading-tight tracking-[-0.03em] text-[var(--text-h)] max-[520px]:px-0 max-[520px]:text-left">
-          {rom.title}
-        </h1>
-      </header>
-
+      <h1 className="sr-only">{rom.title}</h1>
       <div className="relative mx-auto w-full max-w-[min(760px,100%)]">
         {loading && !error && (
           <div
@@ -114,9 +102,10 @@ export default function GamePage() {
             aria-busy="true"
           >
             <div className="flex flex-col items-center gap-3.5">
-              <span
-                className="size-9 animate-[spin_0.75s_linear_infinite] rounded-full border-[3px] border-white/15 border-t-[var(--accent)] motion-reduce:animate-none motion-reduce:border-t-white/35"
-                aria-hidden="true"
+              <Loader2
+                className="size-9 animate-spin text-[var(--accent)] motion-reduce:animate-none"
+                strokeWidth={2}
+                aria-hidden
               />
               <span className="text-sm tracking-[0.02em] text-gray-300">
                 正在加载 ROM…
@@ -126,7 +115,7 @@ export default function GamePage() {
         )}
         {error && (
           <div
-            className="mb-4 space-y-2 rounded-[var(--radius-sm)] border border-red-500/35 bg-red-600/12 px-[18px] py-4 text-[var(--text-h)]"
+            className="mb-4 space-y-2 rounded-[var(--radius-sm)] bg-red-600/12 px-[18px] py-4 text-[var(--text-h)]"
             role="alert"
           >
             <p>{error}</p>
@@ -151,7 +140,7 @@ export default function GamePage() {
         />
       </div>
 
-      <footer className="mx-auto mt-[22px] max-w-[min(760px,100%)] rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-[18px] py-3.5 text-sm leading-normal text-[var(--text-muted)]">
+      <footer className="mx-auto mt-[22px] max-w-[min(760px,100%)] rounded-[var(--radius-sm)] bg-[var(--surface-2)] px-[18px] py-3.5 text-sm leading-normal text-[var(--text-muted)]">
         <p className="m-0">
           键盘：方向键、Z / X、Enter、右 Shift（可在 jsnes 默认映射下游玩）
         </p>
