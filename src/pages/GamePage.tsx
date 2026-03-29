@@ -1,4 +1,12 @@
-import { Keyboard, Loader2, Maximize2, Minimize2, RotateCcw, X } from 'lucide-react'
+import {
+  Check,
+  Keyboard,
+  Loader2,
+  Maximize2,
+  Minimize2,
+  RotateCcw,
+  X,
+} from 'lucide-react'
 import {
   useEffect,
   useId,
@@ -272,6 +280,10 @@ export default function GamePage() {
   const [loading, setLoading] = useState(true)
   const [keysHelpOpen, setKeysHelpOpen] = useState(false)
   const [keysHelpTab, setKeysHelpTab] = useState<'1p' | '2p'>('1p')
+  const [resetBindingsAck, setResetBindingsAck] = useState(false)
+  const resetBindingsAckTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  )
   const keysHelpTitleId = useId()
 
   bindingsRef.current = bindings
@@ -298,6 +310,24 @@ export default function GamePage() {
   useEffect(() => {
     if (!keysHelpOpen) setKeyListen(null)
   }, [keysHelpOpen])
+
+  useEffect(() => {
+    if (!keysHelpOpen) {
+      setResetBindingsAck(false)
+      if (resetBindingsAckTimerRef.current) {
+        clearTimeout(resetBindingsAckTimerRef.current)
+        resetBindingsAckTimerRef.current = null
+      }
+    }
+  }, [keysHelpOpen])
+
+  useEffect(() => {
+    return () => {
+      if (resetBindingsAckTimerRef.current) {
+        clearTimeout(resetBindingsAckTimerRef.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (!keyListen) return
@@ -428,6 +458,14 @@ export default function GamePage() {
     saveStructuredBindings(DEFAULT_STRUCTURED)
     bindingsRef.current = DEFAULT_STRUCTURED
     browserRef.current?.keyboard.setKeys(structuredToFlat(DEFAULT_STRUCTURED))
+    setResetBindingsAck(true)
+    if (resetBindingsAckTimerRef.current) {
+      clearTimeout(resetBindingsAckTimerRef.current)
+    }
+    resetBindingsAckTimerRef.current = setTimeout(() => {
+      setResetBindingsAck(false)
+      resetBindingsAckTimerRef.current = null
+    }, 2000)
   }
 
   return (
@@ -659,13 +697,24 @@ export default function GamePage() {
             </div>
 
             <div className="mt-5 flex flex-wrap items-center justify-end gap-2 border-t border-[var(--border)] pt-4">
+              <span className="sr-only" aria-live="polite" aria-atomic="true">
+                {resetBindingsAck ? '已恢复为默认键位' : ''}
+              </span>
               <button
                 type="button"
-                className="inline-flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm font-medium text-[var(--text-h)] hover:bg-[var(--bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+                  resetBindingsAck
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-h)] hover:bg-[var(--bg)]'
+                }`}
                 onClick={resetKeyBindings}
               >
-                <RotateCcw size={16} strokeWidth={2} aria-hidden />
-                恢复默认键位
+                {resetBindingsAck ? (
+                  <Check size={16} strokeWidth={2.5} aria-hidden />
+                ) : (
+                  <RotateCcw size={16} strokeWidth={2} aria-hidden />
+                )}
+                {resetBindingsAck ? '已恢复' : '恢复默认键位'}
               </button>
             </div>
           </div>
