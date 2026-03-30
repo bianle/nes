@@ -103,6 +103,22 @@ export const roms: RomEntry[] = [
     cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Super_C_U_c6b9029002.png',
     romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_a176e2f4ed.nes',
   },
+  {
+    id: '11',
+    title: '马戏团',
+    description: '马戏团，打马戏团，街机移植的火爆手感。',
+    tags: ['射击', '双人'],
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/2_bc3346d359.jpg',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_e6e7756abd.nes',
+  },
+  {
+    id: '12',
+    title: '中国象棋',
+    description: '中国象棋，打中国象棋，街机移植的火爆手感。',
+    tags: ['射击', '双人'],
+    cover: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Zhong_Guo_Xiang_Qi_Ch_T_6c1be044d1.png',
+    romUrl: 'https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_666f2deb3d.nes',
+  },
 ]
 
 export function getRomById(id: string): RomEntry | undefined {
