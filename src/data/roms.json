@@ -142,5 +142,69 @@
     ],
     "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_1_391fef2b02.jpg",
     "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_0908546a22.nes"
+  },
+  {
+    "id": "14",
+    "title": "F1赛车",
+    "description": "",
+    "tags": [
+      "竞速",
+      "单人",
+      "体育"
+    ],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/F1_2_3bc691228a.png",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/F1_ff4d83c27b.nes"
+  },
+  {
+    "id": "15",
+    "title": "1943",
+    "description": "",
+    "tags": [
+      "射击",
+      "空战"
+    ],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1943_3_4c7b471739.jpg",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1943_69a1c36cc5.nes"
+  },
+  {
+    "id": "16",
+    "title": "赤色要塞",
+    "description": "",
+    "tags": [
+      "射击"
+    ],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/03_db158fc711.jpg",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_91e8591828.nes"
+  },
+  {
+    "id": "17",
+    "title": "赤影战士",
+    "description": "",
+    "tags": [
+      "动作"
+    ],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/2_d8b53811cf.png",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_71fa036b2d.nes"
+  },
+  {
+    "id": "18",
+    "title": "俄罗斯方块",
+    "description": "",
+    "tags": [
+      "益智"
+    ],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/1_Tetris_Zero_34278_3865bc0017.jpg",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_22e2b130d2.nes"
+  },
+  {
+    "id": "19",
+    "title": "激龟快打",
+    "description": "",
+    "tags": [
+      "动作",
+      "对战"
+    ],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_2a8f5b0e27.jpg",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_6f0500f45a.nes"
   }
 ]
