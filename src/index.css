@@ -169,8 +169,13 @@
 }
 
 @layer base {
+  /* 固定视口高度并禁止整页滚动，主内容区由 SimpleBar 承担滚动（否则会出现系统滚动条、SimpleBar 不生效） */
+  html {
+    @apply h-svh overflow-hidden;
+  }
+
   body {
-    @apply m-0 min-h-svh bg-[var(--bg)];
+    @apply m-0 h-svh overflow-hidden bg-[var(--bg)];
     font-family: var(--sans);
     font-size: 1.125rem;
     line-height: 145%;
@@ -185,7 +190,7 @@
   }
 
   #root {
-    @apply mx-auto box-border flex min-h-svh w-full max-w-[min(1200px,100%)] flex-col;
+    @apply mx-auto box-border flex h-full min-h-0 w-full max-w-[min(1200px,100%)] flex-col overflow-hidden;
   }
 
   h1,

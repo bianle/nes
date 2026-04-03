@@ -1,5 +1,6 @@
 import { Gamepad, Search } from 'lucide-react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
+import SimpleBar from 'simplebar-react'
 import AccentPicker from '../components/AccentPicker'
 import ThemeToggle from '../components/ThemeToggle'
 import { useGlobalSearch } from '../context/GlobalSearchContext'
@@ -16,7 +17,7 @@ export default function AppLayout() {
   const { isOpen, open, close } = useGlobalSearch()
 
   return (
-    <div className="flex min-h-svh w-full flex-col bg-[var(--bg)] text-left">
+    <div className="flex min-h-0 w-full flex-1 flex-col bg-[var(--bg)] text-left">
       <header className="sticky top-0 z-20 bg-[var(--bg)]">
         <div className="mx-auto flex h-12 max-w-[min(1200px,100%)] items-center gap-4 px-4 sm:px-5">
           <Link
@@ -70,8 +71,10 @@ export default function AppLayout() {
         </div>
       </header>
 
-      <main className="flex min-h-0 w-full min-w-0 flex-1 flex-col bg-[var(--bg)]">
-        <Outlet />
+      <main className="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-[var(--bg)]">
+        <SimpleBar className="h-full min-h-0 w-full flex-1">
+          <Outlet />
+        </SimpleBar>
       </main>
 
       <footer className="bg-[var(--bg)] py-5 text-center text-xs text-[var(--text-muted)]">
