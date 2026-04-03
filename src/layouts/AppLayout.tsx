@@ -74,16 +74,15 @@ export default function AppLayout() {
       <main className="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-[var(--bg)]">
         <SimpleBar className="h-full min-h-0 w-full flex-1">
           <Outlet />
+          <footer className="bg-[var(--bg)] py-5 text-center text-xs text-[var(--text-muted)]">
+            <div className="mx-auto max-w-[min(1200px,100%)] px-4 sm:px-5">
+              <p className="m-0 leading-relaxed">
+                小霸王其乐无穷 · 浏览器内模拟 · 仅供学习交流
+              </p>
+            </div>
+          </footer>
         </SimpleBar>
       </main>
-
-      <footer className="bg-[var(--bg)] py-5 text-center text-xs text-[var(--text-muted)]">
-        <div className="mx-auto max-w-[min(1200px,100%)] px-4 sm:px-5">
-          <p className="m-0 leading-relaxed">
-            小霸王其乐无穷 · 浏览器内模拟 · 仅供学习交流
-          </p>
-        </div>
-      </footer>
     </div>
   )
 }

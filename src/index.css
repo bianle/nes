@@ -189,8 +189,9 @@
     }
   }
 
+  /* 全宽：滚动条在视口右侧；内容区 max-w 由各区块自行约束 */
   #root {
-    @apply mx-auto box-border flex h-full min-h-0 w-full max-w-[min(1200px,100%)] flex-col overflow-hidden;
+    @apply box-border flex h-full min-h-0 w-full flex-col overflow-hidden;
   }
 
   h1,
