@@ -1,4 +1,4 @@
-import { Gamepad2 } from 'lucide-react'
+import { Gamepad } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 type Props = {
@@ -24,7 +24,7 @@ export function RomCoverThumb({ cover, className, imgClassName }: Props) {
           role="img"
           aria-label="暂无封面"
         >
-          <Gamepad2
+          <Gamepad
             className="h-[40%] w-[40%] min-h-[1.15rem] min-w-[1.15rem] max-h-[3.25rem] max-w-[3.25rem] shrink-0 text-[var(--accent)] opacity-[0.55]"
             strokeWidth={1.35}
             aria-hidden

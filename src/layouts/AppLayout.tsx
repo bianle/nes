@@ -1,4 +1,4 @@
-import { Gamepad2, Search } from 'lucide-react'
+import { Gamepad, Search } from 'lucide-react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import AccentPicker from '../components/AccentPicker'
 import ThemeToggle from '../components/ThemeToggle'
@@ -23,7 +23,7 @@ export default function AppLayout() {
             to="/"
             className="inline-flex min-w-0 shrink items-center gap-2 text-lg font-semibold tracking-tight text-[var(--text-h)] no-underline transition-opacity hover:opacity-80 focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
-            <Gamepad2
+            <Gamepad
               className="size-8 shrink-0 text-[var(--accent)]"
               strokeWidth={2}
               aria-hidden
