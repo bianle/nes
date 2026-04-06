@@ -96,7 +96,7 @@ export default function AccentPicker() {
               onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
               aria-label={themeLabel}
               title={themeLabel}
-              className="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-[var(--bg)] px-[3px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+              className="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border border-[var(--input-border-color)] bg-[var(--switch-bg-color)] px-[3px] transition-colors hover:border-[var(--accent-border)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
             >
               <span
                 aria-hidden
