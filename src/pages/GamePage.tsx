@@ -844,7 +844,7 @@ export default function GamePage() {
               </div>
             )}
             <div
-              className={`justify-self-end ${isMobileLandscape ? 'flex flex-col items-end gap-2' : 'grid grid-cols-2 items-center gap-2'}`}
+              className={`justify-self-end ${isMobileLandscape ? 'flex flex-col items-end gap-2' : 'flex items-center gap-2'}`}
             >
               {isMobileLandscape && (
                 <div className="flex items-center gap-2">
@@ -874,7 +874,9 @@ export default function GamePage() {
                   </button>
                 </div>
               )}
-              <div className="grid grid-cols-2 items-center gap-2">
+              <div
+                className={`${isMobileLandscape ? 'grid grid-cols-2 items-center gap-2' : 'flex items-center gap-2'}`}
+              >
               <button
                 type="button"
                 className={`size-14 rounded-full border text-sm font-bold transition-colors touch-none select-none ${
