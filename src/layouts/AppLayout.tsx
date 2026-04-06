@@ -1,4 +1,5 @@
-import { Gamepad, Search } from 'lucide-react'
+import { Gamepad, Menu, Search, X } from 'lucide-react'
+import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import SimpleBar from 'simplebar-react'
 import AccentPicker from '../components/AccentPicker'
@@ -15,6 +16,7 @@ function navLinkClassName({ isActive }: { isActive: boolean }) {
 
 export default function AppLayout() {
   const { isOpen, open, close } = useGlobalSearch()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col bg-[var(--bg)] text-left">
@@ -52,7 +54,7 @@ export default function AppLayout() {
                 </span>
               </button>
               <nav
-                className="flex shrink-0 items-center gap-5 sm:gap-7"
+                className="hidden shrink-0 items-center gap-5 sm:flex sm:gap-7"
                 aria-label="主导航"
               >
                 <NavLink to="/" end className={navLinkClassName}>
@@ -64,11 +66,59 @@ export default function AppLayout() {
               </nav>
             </div>
             <div className="flex shrink-0 items-center gap-1">
-              <AccentPicker />
-              <ThemeToggle />
+              <div className="hidden sm:flex sm:items-center">
+                <AccentPicker />
+              </div>
+              <button
+                type="button"
+                className="inline-flex size-9 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:hidden"
+                aria-label={mobileMenuOpen ? '收起菜单' : '展开菜单'}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-main-menu"
+                onClick={() => setMobileMenuOpen((v) => !v)}
+              >
+                {mobileMenuOpen ? (
+                  <X className="size-4" strokeWidth={2} aria-hidden />
+                ) : (
+                  <Menu className="size-4" strokeWidth={2} aria-hidden />
+                )}
+              </button>
+              <div className="hidden sm:flex sm:items-center">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
         </div>
+        {mobileMenuOpen && (
+          <div
+            id="mobile-main-menu"
+            className="border-t border-[var(--border)] bg-[var(--bg)] px-4 py-3 sm:hidden"
+          >
+            <nav className="flex flex-col gap-3" aria-label="主导航">
+              <NavLink
+                to="/"
+                end
+                className={navLinkClassName}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                游戏库
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={navLinkClassName}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                关于
+              </NavLink>
+            </nav>
+            <div className="mt-3 border-t border-[var(--border)] pt-3">
+              <div className="mb-3">
+                <AccentPicker />
+              </div>
+              <ThemeToggle />
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-[var(--bg)]">
