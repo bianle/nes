@@ -792,8 +792,8 @@ export default function GamePage() {
                 type="button"
                 className={`col-start-2 row-start-1 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
                   pressedVirtualActions.has('up')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                 }`}
                 aria-label="1P 上"
                 {...bindVirtualPadPointer('up')}
@@ -804,8 +804,8 @@ export default function GamePage() {
                 type="button"
                 className={`col-start-1 row-start-2 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
                   pressedVirtualActions.has('left')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                 }`}
                 aria-label="1P 左"
                 {...bindVirtualPadPointer('left')}
@@ -816,8 +816,8 @@ export default function GamePage() {
                 type="button"
                 className={`col-start-3 row-start-2 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
                   pressedVirtualActions.has('right')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                 }`}
                 aria-label="1P 右"
                 {...bindVirtualPadPointer('right')}
@@ -828,8 +828,8 @@ export default function GamePage() {
                 type="button"
                 className={`col-start-2 row-start-3 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
                   pressedVirtualActions.has('down')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                 }`}
                 aria-label="1P 下"
                 {...bindVirtualPadPointer('down')}
@@ -843,8 +843,8 @@ export default function GamePage() {
                   type="button"
                   className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
                     pressedVirtualActions.has('select')
-                      ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                      : 'border-white/25 bg-black/30 text-white/90'
+                      ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                      : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                   }`}
                   aria-label="1P Select"
                   {...bindVirtualPadPointer('select')}
@@ -855,8 +855,8 @@ export default function GamePage() {
                   type="button"
                   className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
                     pressedVirtualActions.has('start')
-                      ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                      : 'border-white/25 bg-black/30 text-white/90'
+                      ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                      : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                   }`}
                   aria-label="1P Start"
                   {...bindVirtualPadPointer('start')}
@@ -874,8 +874,8 @@ export default function GamePage() {
                     type="button"
                     className={`min-w-[4.75rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
                       pressedVirtualActions.has('select')
-                        ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                        : 'border-white/25 bg-black/30 text-white/90'
+                        ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                        : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                     }`}
                     aria-label="1P Select"
                     {...bindVirtualPadPointer('select')}
@@ -886,8 +886,8 @@ export default function GamePage() {
                     type="button"
                     className={`min-w-[4.75rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
                       pressedVirtualActions.has('start')
-                        ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                        : 'border-white/25 bg-black/30 text-white/90'
+                        ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                        : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                     }`}
                     aria-label="1P Start"
                     {...bindVirtualPadPointer('start')}
@@ -903,8 +903,8 @@ export default function GamePage() {
                 type="button"
                 className={`size-14 rounded-full border text-sm font-bold transition-colors touch-none select-none ${
                   pressedVirtualActions.has('b')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                 }`}
                 aria-label="1P B"
                 {...bindVirtualPadPointer('b')}
@@ -915,8 +915,8 @@ export default function GamePage() {
                 type="button"
                 className={`size-14 rounded-full border text-sm font-bold transition-colors touch-none select-none ${
                   pressedVirtualActions.has('a')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
                 }`}
                 aria-label="1P A"
                 {...bindVirtualPadPointer('a')}
