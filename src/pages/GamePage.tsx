@@ -292,6 +292,7 @@ export default function GamePage() {
   } | null>(null)
   const [gameFullscreen, setGameFullscreen] = useState(false)
   const [mobileLandscapeLocked, setMobileLandscapeLocked] = useState(false)
+  const [isMobileLandscape, setIsMobileLandscape] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [keysHelpOpen, setKeysHelpOpen] = useState(false)
@@ -389,6 +390,28 @@ export default function GamePage() {
       /* ignore */
     }
   }, [gameFullscreen, mobileLandscapeLocked])
+
+  useEffect(() => {
+    const getLandscape = () => {
+      const orientationType = screen.orientation?.type
+      if (orientationType) return orientationType.includes('landscape')
+      return window.matchMedia('(orientation: landscape)').matches
+    }
+
+    const sync = () => setIsMobileLandscape(getLandscape())
+    sync()
+
+    const media = window.matchMedia('(orientation: landscape)')
+    media.addEventListener('change', sync)
+    screen.orientation?.addEventListener?.('change', sync)
+    window.addEventListener('resize', sync)
+
+    return () => {
+      media.removeEventListener('change', sync)
+      screen.orientation?.removeEventListener?.('change', sync)
+      window.removeEventListener('resize', sync)
+    }
+  }, [])
 
   useEffect(() => {
     if (!rom) return
@@ -735,7 +758,13 @@ export default function GamePage() {
         </div>
 
         <div className="pointer-events-none fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-[40] px-2 sm:hidden">
-          <div className="pointer-events-auto mx-auto grid w-full max-w-md grid-cols-[1fr_auto_1fr] items-end gap-3 rounded-xl bg-transparent p-2">
+          <div
+            className={`pointer-events-auto mx-auto grid w-full items-end rounded-xl bg-transparent p-2 ${
+              isMobileLandscape
+                ? 'max-w-lg grid-cols-[1fr_auto] gap-4'
+                : 'max-w-md grid-cols-[1fr_auto_1fr] gap-3'
+            }`}
+          >
             <div className="grid h-[7.5rem] w-[7.5rem] grid-cols-3 grid-rows-3 gap-1 justify-self-start">
               <button
                 type="button"
@@ -786,33 +815,66 @@ export default function GamePage() {
                 ↓
               </button>
             </div>
-            <div className="mb-2 flex flex-col items-center justify-center gap-2">
-              <button
-                type="button"
-                className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
-                  pressedVirtualActions.has('select')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
-                }`}
-                aria-label="1P Select"
-                {...bindVirtualPadPointer('select')}
-              >
-                Select
-              </button>
-              <button
-                type="button"
-                className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
-                  pressedVirtualActions.has('start')
-                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    : 'border-white/25 bg-black/30 text-white/90'
-                }`}
-                aria-label="1P Start"
-                {...bindVirtualPadPointer('start')}
-              >
-                Start
-              </button>
-            </div>
-            <div className="grid grid-cols-2 items-center justify-self-end gap-2">
+            {!isMobileLandscape && (
+              <div className="mb-2 flex flex-col items-center justify-center gap-2">
+                <button
+                  type="button"
+                  className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                    pressedVirtualActions.has('select')
+                      ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                      : 'border-white/25 bg-black/30 text-white/90'
+                  }`}
+                  aria-label="1P Select"
+                  {...bindVirtualPadPointer('select')}
+                >
+                  Select
+                </button>
+                <button
+                  type="button"
+                  className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                    pressedVirtualActions.has('start')
+                      ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                      : 'border-white/25 bg-black/30 text-white/90'
+                  }`}
+                  aria-label="1P Start"
+                  {...bindVirtualPadPointer('start')}
+                >
+                  Start
+                </button>
+              </div>
+            )}
+            <div
+              className={`justify-self-end ${isMobileLandscape ? 'flex flex-col items-end gap-2' : 'grid grid-cols-2 items-center gap-2'}`}
+            >
+              {isMobileLandscape && (
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    className={`min-w-[4.75rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                      pressedVirtualActions.has('select')
+                        ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                        : 'border-white/25 bg-black/30 text-white/90'
+                    }`}
+                    aria-label="1P Select"
+                    {...bindVirtualPadPointer('select')}
+                  >
+                    Select
+                  </button>
+                  <button
+                    type="button"
+                    className={`min-w-[4.75rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                      pressedVirtualActions.has('start')
+                        ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                        : 'border-white/25 bg-black/30 text-white/90'
+                    }`}
+                    aria-label="1P Start"
+                    {...bindVirtualPadPointer('start')}
+                  >
+                    Start
+                  </button>
+                </div>
+              )}
+              <div className="grid grid-cols-2 items-center gap-2">
               <button
                 type="button"
                 className={`size-14 rounded-full border text-sm font-bold transition-colors touch-none select-none ${
@@ -837,6 +899,7 @@ export default function GamePage() {
               >
                 A
               </button>
+              </div>
             </div>
           </div>
         </div>
