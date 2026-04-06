@@ -4,7 +4,6 @@ import {
   Loader2,
   Maximize,
   Minimize,
-  Smartphone,
   RotateCcw,
   X,
 } from 'lucide-react'
@@ -291,8 +290,6 @@ export default function GamePage() {
     action: PadAction
   } | null>(null)
   const [gameFullscreen, setGameFullscreen] = useState(false)
-  const [mobileLandscapeLocked, setMobileLandscapeLocked] = useState(false)
-  const [isMobileLandscape, setIsMobileLandscape] = useState(false)
   const [isTouchDevice, setIsTouchDevice] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -379,39 +376,6 @@ export default function GamePage() {
     }
     document.addEventListener('fullscreenchange', sync)
     return () => document.removeEventListener('fullscreenchange', sync)
-  }, [])
-
-  useEffect(() => {
-    if (gameFullscreen) return
-    if (!mobileLandscapeLocked) return
-    setMobileLandscapeLocked(false)
-    try {
-      screen.orientation?.unlock?.()
-    } catch {
-      /* ignore */
-    }
-  }, [gameFullscreen, mobileLandscapeLocked])
-
-  useEffect(() => {
-    const getLandscape = () => {
-      const orientationType = screen.orientation?.type
-      if (orientationType) return orientationType.includes('landscape')
-      return window.matchMedia('(orientation: landscape)').matches
-    }
-
-    const sync = () => setIsMobileLandscape(getLandscape())
-    sync()
-
-    const media = window.matchMedia('(orientation: landscape)')
-    media.addEventListener('change', sync)
-    screen.orientation?.addEventListener?.('change', sync)
-    window.addEventListener('resize', sync)
-
-    return () => {
-      media.removeEventListener('change', sync)
-      screen.orientation?.removeEventListener?.('change', sync)
-      window.removeEventListener('resize', sync)
-    }
   }, [])
 
   useEffect(() => {
@@ -552,49 +516,6 @@ export default function GamePage() {
       setResetBindingsAck(false)
       resetBindingsAckTimerRef.current = null
     }, 2000)
-  }
-
-  const toggleMobileRotateFullscreen = () => {
-    const el = gameFrameRef.current
-    if (!el) return
-    const orientationApi = screen.orientation as
-      | {
-          lock?: (orientation: 'landscape' | 'portrait') => Promise<void>
-          unlock?: () => void
-        }
-      | undefined
-
-    if (!gameFullscreen) {
-      void el
-        .requestFullscreen()
-        .then(() => {
-          const nextLocked = !mobileLandscapeLocked
-          setMobileLandscapeLocked(nextLocked)
-          if (nextLocked) {
-            void orientationApi?.lock?.('landscape')?.catch(() => {})
-          } else {
-            try {
-              orientationApi?.unlock?.()
-            } catch {
-              /* ignore */
-            }
-          }
-        })
-        .catch(() => {})
-      return
-    }
-
-    const nextLocked = !mobileLandscapeLocked
-    setMobileLandscapeLocked(nextLocked)
-    if (nextLocked) {
-      void orientationApi?.lock?.('landscape')?.catch(() => {})
-    } else {
-      try {
-        orientationApi?.unlock?.()
-      } catch {
-        /* ignore */
-      }
-    }
   }
 
   const pressVirtualAction = (action: PadAction) => {
@@ -761,18 +682,6 @@ export default function GamePage() {
               <Maximize size={20} strokeWidth={2} aria-hidden />
             )}
           </button>
-          <button
-            type="button"
-            className={`size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
-              isTouchDevice ? 'inline-flex' : 'hidden'
-            }`}
-            aria-label={mobileLandscapeLocked ? '恢复竖屏' : '翻转屏幕'}
-            aria-pressed={mobileLandscapeLocked}
-            title={mobileLandscapeLocked ? '恢复竖屏' : '翻转屏幕'}
-            onClick={toggleMobileRotateFullscreen}
-          >
-            <Smartphone size={20} strokeWidth={2} aria-hidden />
-          </button>
         </div>
 
         <div
@@ -780,13 +689,7 @@ export default function GamePage() {
             isTouchDevice ? 'block' : 'hidden'
           }`}
         >
-          <div
-            className={`pointer-events-auto mx-auto grid w-full items-end rounded-xl bg-transparent p-2 ${
-              isMobileLandscape
-                ? 'max-w-lg grid-cols-[1fr_auto] gap-4'
-                : 'max-w-md grid-cols-[1fr_auto_1fr] gap-3'
-            }`}
-          >
+          <div className="pointer-events-auto mx-auto grid w-full max-w-md grid-cols-[1fr_auto_1fr] items-end gap-3 rounded-xl bg-transparent p-2">
             <div className="grid h-[7.5rem] w-[7.5rem] grid-cols-3 grid-rows-3 gap-1 justify-self-start">
               <button
                 type="button"
@@ -837,68 +740,34 @@ export default function GamePage() {
                 ↓
               </button>
             </div>
-            {!isMobileLandscape && (
-              <div className="mb-2 flex flex-col items-center justify-center gap-2">
-                <button
-                  type="button"
-                  className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
-                    pressedVirtualActions.has('select')
-                      ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
-                      : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                  }`}
-                  aria-label="1P Select"
-                  {...bindVirtualPadPointer('select')}
-                >
-                  Select
-                </button>
-                <button
-                  type="button"
-                  className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
-                    pressedVirtualActions.has('start')
-                      ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
-                      : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                  }`}
-                  aria-label="1P Start"
-                  {...bindVirtualPadPointer('start')}
-                >
-                  Start
-                </button>
-              </div>
-            )}
-            <div
-              className={`justify-self-end ${isMobileLandscape ? 'flex flex-col items-end gap-2' : 'flex items-center gap-2'}`}
-            >
-              {isMobileLandscape && (
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    className={`min-w-[4.75rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
-                      pressedVirtualActions.has('select')
-                        ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
-                        : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    }`}
-                    aria-label="1P Select"
-                    {...bindVirtualPadPointer('select')}
-                  >
-                    Select
-                  </button>
-                  <button
-                    type="button"
-                    className={`min-w-[4.75rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
-                      pressedVirtualActions.has('start')
-                        ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
-                        : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
-                    }`}
-                    aria-label="1P Start"
-                    {...bindVirtualPadPointer('start')}
-                  >
-                    Start
-                  </button>
-                </div>
-              )}
-              <div
-                className={`${isMobileLandscape ? 'grid grid-cols-2 items-center gap-2' : 'flex items-center gap-2'}`}
+            <div className="mb-2 flex flex-col items-center justify-center gap-2">
+              <button
+                type="button"
+                className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('select')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                }`}
+                aria-label="1P Select"
+                {...bindVirtualPadPointer('select')}
               >
+                Select
+              </button>
+              <button
+                type="button"
+                className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('start')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                    : 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                }`}
+                aria-label="1P Start"
+                {...bindVirtualPadPointer('start')}
+              >
+                Start
+              </button>
+            </div>
+            <div className="justify-self-end flex items-center gap-2">
+              <div className="flex items-center gap-2">
               <button
                 type="button"
                 className={`size-14 rounded-full border text-sm font-bold transition-colors touch-none select-none ${
