@@ -4,6 +4,7 @@ import {
   Loader2,
   Maximize,
   Minimize,
+  Smartphone,
   RotateCcw,
   X,
 } from 'lucide-react'
@@ -290,6 +291,7 @@ export default function GamePage() {
     action: PadAction
   } | null>(null)
   const [gameFullscreen, setGameFullscreen] = useState(false)
+  const [mobileLandscapeLocked, setMobileLandscapeLocked] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [keysHelpOpen, setKeysHelpOpen] = useState(false)
@@ -376,6 +378,17 @@ export default function GamePage() {
     document.addEventListener('fullscreenchange', sync)
     return () => document.removeEventListener('fullscreenchange', sync)
   }, [])
+
+  useEffect(() => {
+    if (gameFullscreen) return
+    if (!mobileLandscapeLocked) return
+    setMobileLandscapeLocked(false)
+    try {
+      screen.orientation?.unlock?.()
+    } catch {
+      /* ignore */
+    }
+  }, [gameFullscreen, mobileLandscapeLocked])
 
   useEffect(() => {
     if (!rom) return
@@ -504,6 +517,49 @@ export default function GamePage() {
       setResetBindingsAck(false)
       resetBindingsAckTimerRef.current = null
     }, 2000)
+  }
+
+  const toggleMobileRotateFullscreen = () => {
+    const el = gameFrameRef.current
+    if (!el) return
+    const orientationApi = screen.orientation as
+      | {
+          lock?: (orientation: 'landscape' | 'portrait') => Promise<void>
+          unlock?: () => void
+        }
+      | undefined
+
+    if (!gameFullscreen) {
+      void el
+        .requestFullscreen()
+        .then(() => {
+          const nextLocked = !mobileLandscapeLocked
+          setMobileLandscapeLocked(nextLocked)
+          if (nextLocked) {
+            void orientationApi?.lock?.('landscape')?.catch(() => {})
+          } else {
+            try {
+              orientationApi?.unlock?.()
+            } catch {
+              /* ignore */
+            }
+          }
+        })
+        .catch(() => {})
+      return
+    }
+
+    const nextLocked = !mobileLandscapeLocked
+    setMobileLandscapeLocked(nextLocked)
+    if (nextLocked) {
+      void orientationApi?.lock?.('landscape')?.catch(() => {})
+    } else {
+      try {
+        orientationApi?.unlock?.()
+      } catch {
+        /* ignore */
+      }
+    }
   }
 
   const pressVirtualAction = (action: PadAction) => {
@@ -642,7 +698,7 @@ export default function GamePage() {
         >
           <button
             type="button"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="hidden size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:inline-flex"
             aria-label="自定义按键"
             aria-expanded={keysHelpOpen}
             aria-haspopup="dialog"
@@ -654,7 +710,7 @@ export default function GamePage() {
           </button>
           <button
             type="button"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="hidden size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:inline-flex"
             aria-label={gameFullscreen ? '退出全屏' : '全屏'}
             aria-pressed={gameFullscreen}
             title={gameFullscreen ? '退出全屏' : '全屏'}
@@ -665,6 +721,16 @@ export default function GamePage() {
             ) : (
               <Maximize size={20} strokeWidth={2} aria-hidden />
             )}
+          </button>
+          <button
+            type="button"
+            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:hidden"
+            aria-label={mobileLandscapeLocked ? '恢复竖屏' : '翻转屏幕'}
+            aria-pressed={mobileLandscapeLocked}
+            title={mobileLandscapeLocked ? '恢复竖屏' : '翻转屏幕'}
+            onClick={toggleMobileRotateFullscreen}
+          >
+            <Smartphone size={20} strokeWidth={2} aria-hidden />
           </button>
         </div>
 
