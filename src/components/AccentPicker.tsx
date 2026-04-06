@@ -1,4 +1,4 @@
-import { Palette } from 'lucide-react'
+import { Moon, Palette, Sun } from 'lucide-react'
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   ACCENT_PRESETS,
@@ -8,15 +8,40 @@ import {
 } from '../theme/accentPresets'
 
 export default function AccentPicker() {
+  const STORAGE_KEY = 'nes-theme'
+  type ThemeMode = 'light' | 'dark'
+  const readStoredTheme = (): ThemeMode => {
+    try {
+      const v = localStorage.getItem(STORAGE_KEY)
+      if (v === 'light' || v === 'dark') return v
+    } catch {
+      /* ignore */
+    }
+    return 'dark'
+  }
+  const applyTheme = (mode: ThemeMode) => {
+    document.documentElement.setAttribute('data-theme', mode)
+    try {
+      localStorage.setItem(STORAGE_KEY, mode)
+    } catch {
+      /* ignore */
+    }
+  }
+
   const [preset, setPreset] = useState<AccentPreset>(() =>
     readStoredAccentPreset(),
   )
+  const [theme, setTheme] = useState<ThemeMode>(() => readStoredTheme())
   const [open, setOpen] = useState(false)
   const wrapRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     applyAccentPreset(preset)
   }, [preset])
+
+  useLayoutEffect(() => {
+    applyTheme(theme)
+  }, [theme])
 
   useEffect(() => {
     if (!open) return
@@ -38,8 +63,9 @@ export default function AccentPicker() {
 
   const select = useCallback((id: AccentPreset) => {
     setPreset(id)
-    setOpen(false)
   }, [])
+  const isDark = theme === 'dark'
+  const themeLabel = isDark ? '切换为浅色' : '切换为深色'
 
   return (
     <div className="relative" ref={wrapRef}>
@@ -47,10 +73,10 @@ export default function AccentPicker() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-h)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-        aria-label="主题色"
+        aria-label="主题设置"
         aria-expanded={open}
         aria-haspopup="dialog"
-        title="主题色"
+        title="主题设置"
       >
         <Palette size={14} strokeWidth={2} aria-hidden />
       </button>
@@ -59,8 +85,36 @@ export default function AccentPicker() {
         <div
           className="absolute right-0 top-full z-30 mt-1 min-w-[200px] rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-2)] p-2"
           role="dialog"
-          aria-label="选择主题色"
+          aria-label="主题设置"
         >
+          <div className="mb-2 flex items-center justify-between gap-2 border-b border-[var(--border)] px-1 pb-2">
+            <p className="text-xs font-medium text-[var(--text-muted)]">明暗</p>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={isDark}
+              onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
+              aria-label={themeLabel}
+              title={themeLabel}
+              className="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-[var(--surface)] px-[3px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            >
+              <span
+                aria-hidden
+                className={`pointer-events-none absolute left-[3px] top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full shadow-sm transition-transform duration-200 ease-out ${
+                  isDark
+                    ? 'translate-x-[18px] bg-[#0a0a0c] text-white'
+                    : 'translate-x-0 bg-[var(--bg)] text-amber-500'
+                }`}
+              >
+                {isDark ? (
+                  <Moon className="size-2.5" strokeWidth={2} aria-hidden />
+                ) : (
+                  <Sun className="size-2.5" strokeWidth={2} aria-hidden />
+                )}
+              </span>
+            </button>
+          </div>
+
           <p className="mb-2 px-1 text-xs font-medium text-[var(--text-muted)]">
             主题色
           </p>

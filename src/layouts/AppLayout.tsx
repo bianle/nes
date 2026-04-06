@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import SimpleBar from 'simplebar-react'
 import AccentPicker from '../components/AccentPicker'
-import ThemeToggle from '../components/ThemeToggle'
 import { useGlobalSearch } from '../context/GlobalSearchContext'
 
 function navLinkClassName({ isActive }: { isActive: boolean }) {
@@ -83,9 +82,6 @@ export default function AppLayout() {
                   <Menu className="size-4" strokeWidth={2} aria-hidden />
                 )}
               </button>
-              <div className="hidden sm:flex sm:items-center">
-                <ThemeToggle />
-              </div>
             </div>
           </div>
         </div>
@@ -112,10 +108,7 @@ export default function AppLayout() {
               </NavLink>
             </nav>
             <div className="mt-3 border-t border-[var(--border)] pt-3">
-              <div className="mb-3">
-                <AccentPicker />
-              </div>
-              <ThemeToggle />
+              <AccentPicker />
             </div>
           </div>
         )}
