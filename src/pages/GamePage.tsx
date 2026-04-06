@@ -293,6 +293,7 @@ export default function GamePage() {
   const [gameFullscreen, setGameFullscreen] = useState(false)
   const [mobileLandscapeLocked, setMobileLandscapeLocked] = useState(false)
   const [isMobileLandscape, setIsMobileLandscape] = useState(false)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [keysHelpOpen, setKeysHelpOpen] = useState(false)
@@ -411,6 +412,17 @@ export default function GamePage() {
       screen.orientation?.removeEventListener?.('change', sync)
       window.removeEventListener('resize', sync)
     }
+  }, [])
+
+  useEffect(() => {
+    const detectTouchDevice = () =>
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(any-pointer: coarse)').matches ||
+      navigator.maxTouchPoints > 0
+    const sync = () => setIsTouchDevice(detectTouchDevice())
+    sync()
+    window.addEventListener('resize', sync)
+    return () => window.removeEventListener('resize', sync)
   }, [])
 
   useEffect(() => {
@@ -721,7 +733,9 @@ export default function GamePage() {
         >
           <button
             type="button"
-            className="hidden size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:inline-flex"
+            className={`size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+              isTouchDevice ? 'hidden' : 'inline-flex'
+            }`}
             aria-label="自定义按键"
             aria-expanded={keysHelpOpen}
             aria-haspopup="dialog"
@@ -733,7 +747,9 @@ export default function GamePage() {
           </button>
           <button
             type="button"
-            className="hidden size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:inline-flex"
+            className={`size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+              isTouchDevice ? 'hidden' : 'inline-flex'
+            }`}
             aria-label={gameFullscreen ? '退出全屏' : '全屏'}
             aria-pressed={gameFullscreen}
             title={gameFullscreen ? '退出全屏' : '全屏'}
@@ -747,7 +763,9 @@ export default function GamePage() {
           </button>
           <button
             type="button"
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] sm:hidden"
+            className={`size-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-white/10 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+              isTouchDevice ? 'inline-flex' : 'hidden'
+            }`}
             aria-label={mobileLandscapeLocked ? '恢复竖屏' : '翻转屏幕'}
             aria-pressed={mobileLandscapeLocked}
             title={mobileLandscapeLocked ? '恢复竖屏' : '翻转屏幕'}
@@ -757,7 +775,11 @@ export default function GamePage() {
           </button>
         </div>
 
-        <div className="pointer-events-none fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-[40] px-2 sm:hidden">
+        <div
+          className={`pointer-events-none fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-[40] px-2 ${
+            isTouchDevice ? 'block' : 'hidden'
+          }`}
+        >
           <div
             className={`pointer-events-auto mx-auto grid w-full items-end rounded-xl bg-transparent p-2 ${
               isMobileLandscape
