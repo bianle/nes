@@ -13,6 +13,8 @@ import {
   useRef,
   useState,
   type Dispatch,
+  type MouseEvent as ReactMouseEvent,
+  type PointerEvent as ReactPointerEvent,
   type SetStateAction,
 } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
@@ -20,6 +22,7 @@ import type { Browser } from 'jsnes'
 import { getRomById } from '../data/roms'
 import {
   assignBinding,
+  BTN,
   DEFAULT_STRUCTURED,
   keyCodeToLabel,
   loadStructuredBindings,
@@ -29,6 +32,17 @@ import {
   type PadAction,
   type StructuredBindings,
 } from '../lib/nesKeyboardBindings'
+
+const ACTION_TO_BTN: Record<PadAction, number> = {
+  up: BTN.UP,
+  down: BTN.DOWN,
+  left: BTN.LEFT,
+  right: BTN.RIGHT,
+  a: BTN.A,
+  b: BTN.B,
+  select: BTN.SEL,
+  start: BTN.START,
+}
 
 function PlayerPadDiagram({
   player,
@@ -280,10 +294,15 @@ export default function GamePage() {
   const [loading, setLoading] = useState(true)
   const [keysHelpOpen, setKeysHelpOpen] = useState(false)
   const [keysHelpTab, setKeysHelpTab] = useState<'1p' | '2p'>('1p')
+  const [pressedVirtualActions, setPressedVirtualActions] = useState<Set<PadAction>>(
+    () => new Set(),
+  )
   const [resetBindingsAck, setResetBindingsAck] = useState(false)
   const resetBindingsAckTimerRef = useRef<ReturnType<typeof setTimeout> | null>(
     null,
   )
+  const virtualPointerActionRef = useRef<Map<number, PadAction>>(new Map())
+  const pressedVirtualActionsRef = useRef<Set<PadAction>>(new Set())
   const keysHelpTitleId = useId()
 
   bindingsRef.current = bindings
@@ -440,6 +459,25 @@ export default function GamePage() {
     browserRef.current?.keyboard.setKeys(structuredToFlat(bindings))
   }, [bindings])
 
+  useEffect(() => {
+    pressedVirtualActionsRef.current = pressedVirtualActions
+  }, [pressedVirtualActions])
+
+  useEffect(() => {
+    return () => {
+      const browserLike = browserRef.current as
+        | (Browser & {
+            nes?: {
+              buttonUp: (player: number, button: number) => void
+            }
+          })
+        | null
+      for (const action of pressedVirtualActionsRef.current) {
+        browserLike?.nes?.buttonUp(1, ACTION_TO_BTN[action])
+      }
+    }
+  }, [])
+
   if (!id || !rom) {
     return <Navigate to="/" replace />
   }
@@ -467,6 +505,71 @@ export default function GamePage() {
       resetBindingsAckTimerRef.current = null
     }, 2000)
   }
+
+  const pressVirtualAction = (action: PadAction) => {
+    if (pressedVirtualActions.has(action)) return
+    const browserLike = browserRef.current as
+      | (Browser & {
+          nes?: {
+            buttonDown: (player: number, button: number) => void
+          }
+        })
+      | null
+    browserLike?.nes?.buttonDown(1, ACTION_TO_BTN[action])
+    setPressedVirtualActions((prev) => {
+      const next = new Set(prev)
+      next.add(action)
+      return next
+    })
+  }
+
+  const releaseVirtualAction = (action: PadAction) => {
+    const browserLike = browserRef.current as
+      | (Browser & {
+          nes?: {
+            buttonUp: (player: number, button: number) => void
+          }
+        })
+      | null
+    browserLike?.nes?.buttonUp(1, ACTION_TO_BTN[action])
+    setPressedVirtualActions((prev) => {
+      if (!prev.has(action)) return prev
+      const next = new Set(prev)
+      next.delete(action)
+      return next
+    })
+  }
+
+  const bindVirtualPadPointer = (action: PadAction) => ({
+    onPointerDown: (e: ReactPointerEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+      virtualPointerActionRef.current.set(e.pointerId, action)
+      e.currentTarget.setPointerCapture(e.pointerId)
+      pressVirtualAction(action)
+    },
+    onPointerUp: (e: ReactPointerEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+      const mapped = virtualPointerActionRef.current.get(e.pointerId)
+      if (!mapped) return
+      virtualPointerActionRef.current.delete(e.pointerId)
+      releaseVirtualAction(mapped)
+    },
+    onPointerCancel: (e: ReactPointerEvent<HTMLButtonElement>) => {
+      const mapped = virtualPointerActionRef.current.get(e.pointerId)
+      if (!mapped) return
+      virtualPointerActionRef.current.delete(e.pointerId)
+      releaseVirtualAction(mapped)
+    },
+    onLostPointerCapture: (e: ReactPointerEvent<HTMLButtonElement>) => {
+      const mapped = virtualPointerActionRef.current.get(e.pointerId)
+      if (!mapped) return
+      virtualPointerActionRef.current.delete(e.pointerId)
+      releaseVirtualAction(mapped)
+    },
+    onContextMenu: (e: ReactMouseEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+    },
+  })
 
   return (
     <div className="flex min-h-full flex-col px-4 pb-6 pt-5 text-left">
@@ -563,6 +666,113 @@ export default function GamePage() {
               <Maximize size={20} strokeWidth={2} aria-hidden />
             )}
           </button>
+        </div>
+
+        <div className="pointer-events-none fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-[40] px-2 sm:hidden">
+          <div className="pointer-events-auto mx-auto grid w-full max-w-md grid-cols-[1fr_auto_1fr] items-end gap-3 rounded-xl bg-transparent p-2">
+            <div className="grid h-[7.5rem] w-[7.5rem] grid-cols-3 grid-rows-3 gap-1 justify-self-start">
+              <button
+                type="button"
+                className={`col-start-2 row-start-1 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('up')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P 上"
+                {...bindVirtualPadPointer('up')}
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                className={`col-start-1 row-start-2 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('left')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P 左"
+                {...bindVirtualPadPointer('left')}
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                className={`col-start-3 row-start-2 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('right')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P 右"
+                {...bindVirtualPadPointer('right')}
+              >
+                →
+              </button>
+              <button
+                type="button"
+                className={`col-start-2 row-start-3 rounded-md border text-xs font-semibold leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('down')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P 下"
+                {...bindVirtualPadPointer('down')}
+              >
+                ↓
+              </button>
+            </div>
+            <div className="mb-2 flex flex-col items-center justify-center gap-2">
+              <button
+                type="button"
+                className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('select')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P Select"
+                {...bindVirtualPadPointer('select')}
+              >
+                Select
+              </button>
+              <button
+                type="button"
+                className={`min-w-[4.5rem] rounded-md border px-2 py-1 text-[11px] font-medium leading-none transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('start')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P Start"
+                {...bindVirtualPadPointer('start')}
+              >
+                Start
+              </button>
+            </div>
+            <div className="grid grid-cols-2 items-center justify-self-end gap-2">
+              <button
+                type="button"
+                className={`size-14 rounded-full border text-sm font-bold transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('b')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P B"
+                {...bindVirtualPadPointer('b')}
+              >
+                B
+              </button>
+              <button
+                type="button"
+                className={`size-14 rounded-full border text-sm font-bold transition-colors touch-none select-none ${
+                  pressedVirtualActions.has('a')
+                    ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent)]'
+                    : 'border-white/25 bg-black/30 text-white/90'
+                }`}
+                aria-label="1P A"
+                {...bindVirtualPadPointer('a')}
+              >
+                A
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
