@@ -108,7 +108,7 @@ export default function AccentPicker() {
 
       {open && (
         <div
-          className="absolute right-0 top-full z-30 mt-1 min-w-[200px] rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-2)] p-2"
+          className="absolute right-0 top-full z-30 mt-1 min-w-[360px] rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-2)] p-2"
           role="dialog"
           aria-label="主题设置"
         >
@@ -153,7 +153,7 @@ export default function AccentPicker() {
                   key={id}
                   type="button"
                   onClick={() => selectBg(id)}
-                  className={`flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+                  className={`flex flex-col items-center gap-1 rounded-md px-3.5 py-2 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
                     active ? 'bg-[var(--accent-soft)]' : ''
                   }`}
                   title={label}
@@ -187,7 +187,7 @@ export default function AccentPicker() {
                   key={id}
                   type="button"
                   onClick={() => select(id)}
-                  className={`flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+                  className={`flex flex-col items-center gap-1 rounded-md px-3.5 py-2 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
                     active ? 'bg-[var(--accent-soft)]' : ''
                   }`}
                   title={label}

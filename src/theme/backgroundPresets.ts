@@ -18,7 +18,7 @@ export const BACKGROUND_PRESETS: {
   { id: 'warm', label: '暖色', lightSwatch: '#faf8f5', darkSwatch: '#1a1816' },
   { id: 'cool', label: '冷色', lightSwatch: '#f5f7fa', darkSwatch: '#12161c' },
   { id: 'paper', label: '纸质', lightSwatch: '#f4f0e6', darkSwatch: '#1c1914' },
-  { id: 'oled', label: '纯黑', lightSwatch: '#fafafa', darkSwatch: '#000000' },
+  { id: 'oled', label: '高对比', lightSwatch: '#fafafa', darkSwatch: '#000000' },
 ]
 
 function isValidPreset(v: string | null): v is BackgroundPreset {
