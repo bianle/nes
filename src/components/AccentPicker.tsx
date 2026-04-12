@@ -6,6 +6,12 @@ import {
   applyAccentPreset,
   readStoredAccentPreset,
 } from '../theme/accentPresets'
+import {
+  BACKGROUND_PRESETS,
+  type BackgroundPreset,
+  applyBackgroundPreset,
+  readStoredBackgroundPreset,
+} from '../theme/backgroundPresets'
 
 export default function AccentPicker() {
   const STORAGE_KEY = 'nes-theme'
@@ -31,6 +37,9 @@ export default function AccentPicker() {
   const [preset, setPreset] = useState<AccentPreset>(() =>
     readStoredAccentPreset(),
   )
+  const [bgPreset, setBgPreset] = useState<BackgroundPreset>(() =>
+    readStoredBackgroundPreset(),
+  )
   const [theme, setTheme] = useState<ThemeMode>(() => readStoredTheme())
   const [open, setOpen] = useState(false)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -38,6 +47,10 @@ export default function AccentPicker() {
   useLayoutEffect(() => {
     applyAccentPreset(preset)
   }, [preset])
+
+  useLayoutEffect(() => {
+    applyBackgroundPreset(bgPreset)
+  }, [bgPreset])
 
   useLayoutEffect(() => {
     applyTheme(theme)
@@ -63,6 +76,9 @@ export default function AccentPicker() {
 
   const select = useCallback((id: AccentPreset) => {
     setPreset(id)
+  }, [])
+  const selectBg = useCallback((id: BackgroundPreset) => {
+    setBgPreset(id)
   }, [])
   const isDark = theme === 'dark'
   const themeLabel = isDark ? '切换为浅色' : '切换为深色'
@@ -113,6 +129,35 @@ export default function AccentPicker() {
                 )}
               </span>
             </button>
+          </div>
+
+          <p className="mb-2 px-1 text-xs font-medium text-[var(--text-muted)]">
+            背景
+          </p>
+          <div className="mb-3 flex flex-wrap gap-2">
+            {BACKGROUND_PRESETS.map(({ id, label, lightSwatch, darkSwatch }) => {
+              const active = bgPreset === id
+              const swatch = isDark ? darkSwatch : lightSwatch
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => selectBg(id)}
+                  className="flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                  title={label}
+                  aria-label={label}
+                  aria-pressed={active}
+                >
+                  <span
+                    className="size-8 rounded-full outline outline-1 outline-black/10 dark:outline-white/15"
+                    style={{ backgroundColor: swatch }}
+                  />
+                  <span className="max-w-[4.5rem] truncate text-center text-[11px] text-[var(--text-muted)]">
+                    {label}
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
           <p className="mb-2 px-1 text-xs font-medium text-[var(--text-muted)]">

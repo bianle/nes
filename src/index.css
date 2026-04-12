@@ -66,6 +66,91 @@
   color-scheme: light;
 }
 
+/* 背景色预设（默认：不写 data-bg，由上方 :root 提供） */
+:root[data-theme='light'][data-bg='warm'] {
+  --bg: #faf8f5;
+  --border: #ebe6df;
+  --input-border-color: #d4cdc3;
+  --switch-bg-color: #e8e2d9;
+  --code-bg: #f2ebe3;
+  --social-bg: rgba(250, 248, 245, 0.55);
+  --surface: rgba(255, 252, 248, 0.78);
+  --surface-2: rgba(248, 244, 237, 0.96);
+}
+:root[data-theme='dark'][data-bg='warm'] {
+  --bg: #1a1816;
+  --border: #35302a;
+  --input-border-color: #4a433c;
+  --switch-bg-color: #2c2824;
+  --code-bg: #221f1c;
+  --social-bg: rgba(35, 32, 28, 0.52);
+  --surface: rgba(45, 40, 36, 0.88);
+  --surface-2: #262320;
+}
+
+:root[data-theme='light'][data-bg='cool'] {
+  --bg: #f5f7fa;
+  --border: #dfe3ea;
+  --input-border-color: #c8ced9;
+  --switch-bg-color: #e2e8f0;
+  --code-bg: #e8ecf2;
+  --social-bg: rgba(245, 247, 250, 0.55);
+  --surface: rgba(248, 250, 252, 0.78);
+  --surface-2: rgba(241, 245, 249, 0.96);
+}
+:root[data-theme='dark'][data-bg='cool'] {
+  --bg: #12161c;
+  --border: #2a3140;
+  --input-border-color: #3d4759;
+  --switch-bg-color: #1e242e;
+  --code-bg: #171c24;
+  --social-bg: rgba(22, 26, 34, 0.52);
+  --surface: rgba(30, 36, 46, 0.88);
+  --surface-2: #1a1f28;
+}
+
+:root[data-theme='light'][data-bg='paper'] {
+  --bg: #f4f0e6;
+  --border: #e0d8c8;
+  --input-border-color: #cfc4b0;
+  --switch-bg-color: #e5ddd0;
+  --code-bg: #e8e2d4;
+  --social-bg: rgba(244, 240, 230, 0.55);
+  --surface: rgba(252, 248, 240, 0.8);
+  --surface-2: #ebe4d6;
+}
+:root[data-theme='dark'][data-bg='paper'] {
+  --bg: #1c1914;
+  --border: #3d362c;
+  --input-border-color: #524a3e;
+  --switch-bg-color: #2a2620;
+  --code-bg: #242019;
+  --social-bg: rgba(36, 32, 26, 0.52);
+  --surface: rgba(42, 38, 32, 0.88);
+  --surface-2: #26221c;
+}
+
+:root[data-theme='light'][data-bg='oled'] {
+  --bg: #fafafa;
+  --border: #e8e8e8;
+  --input-border-color: #d1d1d1;
+  --switch-bg-color: #ececec;
+  --code-bg: #f0f0f0;
+  --social-bg: rgba(250, 250, 250, 0.55);
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-2: #f3f3f3;
+}
+:root[data-theme='dark'][data-bg='oled'] {
+  --bg: #000000;
+  --border: #2a2a2a;
+  --input-border-color: #404040;
+  --switch-bg-color: #141414;
+  --code-bg: #0d0d0d;
+  --social-bg: rgba(20, 20, 20, 0.55);
+  --surface: rgba(24, 24, 24, 0.94);
+  --surface-2: #141414;
+}
+
 /* 主题色预设（默认玫粉：不写 data-accent，由上方 :root 提供） */
 :root[data-theme='light'][data-accent='violet'] {
   --accent: #6d28d9;
