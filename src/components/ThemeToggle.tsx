@@ -1,5 +1,6 @@
 import { Moon, Sun } from 'lucide-react'
 import { useCallback, useLayoutEffect, useState } from 'react'
+import { applyStoredBackgroundForTheme } from '../theme/backgroundPresets'
 
 const STORAGE_KEY = 'nes-theme'
 
@@ -22,6 +23,7 @@ function applyTheme(mode: ThemeMode) {
   } catch {
     /* ignore */
   }
+  applyStoredBackgroundForTheme(mode)
 }
 
 export default function ThemeToggle() {
