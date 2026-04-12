@@ -97,7 +97,7 @@ export default function AccentPicker() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-[var(--text-muted)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-h)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+        className="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-[var(--accent)] transition-colors hover:bg-[var(--surface-2)] hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         aria-label="主题设置"
         aria-expanded={open}
         aria-haspopup="dialog"
@@ -153,13 +153,19 @@ export default function AccentPicker() {
                   key={id}
                   type="button"
                   onClick={() => selectBg(id)}
-                  className="flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                  className={`flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+                    active ? 'bg-[var(--accent-soft)]' : ''
+                  }`}
                   title={label}
                   aria-label={label}
                   aria-pressed={active}
                 >
                   <span
-                    className="size-8 rounded-full outline outline-1 outline-black/10 dark:outline-white/15"
+                    className={`size-8 rounded-full outline outline-1 outline-black/10 dark:outline-white/15 ${
+                      active
+                        ? 'ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--surface-2)]'
+                        : ''
+                    }`}
                     style={{ backgroundColor: swatch }}
                   />
                   <span className="max-w-[4.5rem] truncate text-center text-[11px] text-[var(--text-muted)]">
@@ -181,13 +187,19 @@ export default function AccentPicker() {
                   key={id}
                   type="button"
                   onClick={() => select(id)}
-                  className="flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+                  className={`flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${
+                    active ? 'bg-[var(--accent-soft)]' : ''
+                  }`}
                   title={label}
                   aria-label={label}
                   aria-pressed={active}
                 >
                   <span
-                    className="size-8 rounded-full outline outline-1 outline-black/10 dark:outline-white/15"
+                    className={`size-8 rounded-full outline outline-1 outline-black/10 dark:outline-white/15 ${
+                      active
+                        ? 'ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--surface-2)]'
+                        : ''
+                    }`}
                     style={{ backgroundColor: swatch }}
                   />
                   <span className="max-w-[4.5rem] truncate text-center text-[11px] text-[var(--text-muted)]">
