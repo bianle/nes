@@ -206,5 +206,29 @@
     ],
     "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_2a8f5b0e27.jpg",
     "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_6f0500f45a.nes"
+  },
+  {
+    "id": "20",
+    "title": "加纳战机",
+    "description": "",
+    "tags": [],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/27035_79be9e8174.jpg",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_36267577c2.nes"
+  },
+  {
+    "id": "21",
+    "title": "重装机兵",
+    "description": "",
+    "tags": [],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Metal_Max_J_b06f4d755f.png",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/Metal_Max_J_e9a449463a.nes"
+  },
+  {
+    "id": "22",
+    "title": "热血格斗传说",
+    "description": "",
+    "tags": [],
+    "cover": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/2_16389e4e6a.jpg",
+    "romUrl": "https://nexus-alioss.oss-cn-beijing.aliyuncs.com/_898d9f0308.nes"
   }
 ]
