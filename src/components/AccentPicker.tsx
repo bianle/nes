@@ -137,20 +137,21 @@ export default function AccentPicker() {
           <div className="mb-3 flex flex-wrap gap-2">
             {BACKGROUND_PRESETS.map(({ id, label, lightSwatch, darkSwatch }) => {
               const active = bgPreset === id
-              const swatch = isDark ? darkSwatch : lightSwatch
               return (
                 <button
                   key={id}
                   type="button"
                   onClick={() => selectBg(id)}
                   className="flex flex-col items-center gap-1 rounded-md p-1.5 transition-colors hover:bg-[var(--accent-bg)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-                  title={label}
-                  aria-label={label}
+                  title={`${label}（左浅色 / 右深色）`}
+                  aria-label={`${label}，预览左半为浅色背景、右半为深色背景`}
                   aria-pressed={active}
                 >
                   <span
                     className="size-8 rounded-full outline outline-1 outline-black/10 dark:outline-white/15"
-                    style={{ backgroundColor: swatch }}
+                    style={{
+                      background: `linear-gradient(to right, ${lightSwatch} 50%, ${darkSwatch} 50%)`,
+                    }}
                   />
                   <span className="max-w-[4.5rem] truncate text-center text-[11px] text-[var(--text-muted)]">
                     {label}
