@@ -19,7 +19,7 @@ export default function AppLayout() {
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col bg-[var(--bg)] text-left">
-      <header className="sticky top-0 z-20 bg-[var(--bg)]">
+      <header className="sticky top-0 z-20 shrink-0 border-b border-[var(--border)] bg-[var(--bg)]">
         <div className="mx-auto flex h-12 max-w-[min(1200px,100%)] items-center gap-4 px-4 sm:px-5">
           <Link
             to="/"
@@ -117,15 +117,15 @@ export default function AppLayout() {
       <main className="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden bg-[var(--bg)]">
         <SimpleBar className="h-full min-h-0 w-full flex-1">
           <Outlet />
-          <footer className="hidden bg-[var(--bg)] py-5 text-center text-xs text-[var(--text-muted)] sm:block">
-            <div className="mx-auto max-w-[min(1200px,100%)] px-4 sm:px-5">
-              <p className="m-0 leading-relaxed">
-                小霸王其乐无穷 · 浏览器内模拟 · 仅供学习交流
-              </p>
-            </div>
-          </footer>
         </SimpleBar>
       </main>
+      <footer className="hidden shrink-0 bg-[var(--bg)] py-5 text-center text-xs text-[var(--text-muted)] sm:block">
+        <div className="mx-auto max-w-[min(1200px,100%)] px-4 sm:px-5">
+          <p className="m-0 leading-relaxed">
+            小霸王其乐无穷 · 浏览器内模拟 · 仅供学习交流
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }
